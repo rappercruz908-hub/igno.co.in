@@ -8,127 +8,142 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #ffffff;
+      font-family: Arial, sans-serif;
+      background: #0b0f19;
+      color: white;
     }
 
-    header {
-      padding: 60px 20px;
-      text-align: center;
+    /* HERO SECTION */
+    #hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    header h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
-      color: #00e5ff;
-    }
-
-    header p {
-      font-size: 18px;
-      opacity: 0.9;
-    }
-
-    section {
-      max-width: 1000px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-
-    .card {
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 12px;
-      padding: 30px;
-      margin-bottom: 30px;
-    }
-
-    .card h2 {
-      color: #ffcc70;
-    }
-
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .service img {
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      border-radius: 10px;
+      height: 100%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 20px;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      color: #00e5ff;
       margin-bottom: 10px;
     }
 
-    button {
+    .hero-content p {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero-content button {
+      padding: 12px 24px;
       background: #00e5ff;
       border: none;
-      padding: 14px 28px;
+      border-radius: 5px;
       font-size: 16px;
-      border-radius: 30px;
       cursor: pointer;
-      color: #000;
     }
 
-    button:hover {
-      background: #00bcd4;
+    /* CONTENT SECTION */
+    section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: auto;
     }
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      opacity: 0.8;
+    h2 {
+      color: #00e5ff;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Your Business Name</h1>
-    <p>Simple. Reliable. Professional solutions for your business.</p>
-    <br>
-    <button>Contact Us</button>
+  <!-- HERO -->
+  <header id="hero">
+    <canvas id="antigravity"></canvas>
+
+    <div class="hero-content">
+      <h1>Your Business Name</h1>
+      <p>Modern solutions for modern businesses</p>
+      <button>Contact Us</button>
+    </div>
   </header>
 
-  <section class="card">
+  <!-- ABOUT -->
+  <section>
     <h2>About Us</h2>
     <p>
-      We help small businesses with modern digital solutions.
-      Our focus is simplicity, reliability, and fast execution.
+      We help small businesses grow with modern digital solutions.
+      Simple, fast, and effective.
     </p>
   </section>
 
-  <section class="card">
-    <h2>Our Services</h2>
-
-    <div class="services">
-      <div class="service">
-        <img src="images/service1.jpg" alt="Service 1">
-        <h3>Service One</h3>
-        <p>Description of your service.</p>
-      </div>
-
-      <div class="service">
-        <img src="images/service1.jpg" alt="Service 2">
-        <h3>Service Two</h3>
-        <p>Description of your service.</p>
-      </div>
-
-      <div class="service">
-        <img src="images/service1.jpg" alt="Service 3">
-        <h3>Service Three</h3>
-        <p>Description of your service.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="card">
+  <!-- CONTACT -->
+  <section>
     <h2>Contact</h2>
-    <p>Email: yourname@email.com</p>
+    <p>Email: your@email.com</p>
   </section>
 
-  <footer>
-    © 2025 IGNO
-  </footer>
+  <!-- ANIMATION SCRIPT -->
+  <script>
+    const canvas = document.getElementById("antigravity");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const particles = [];
+    const count = 120;
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2 + 1
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "#00e5ff";
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
 
 </body>
 </html>
