@@ -1,12 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>IGNO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>IGNO | Business Solutions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fa;
+  color: #222;
+}
+header {
+  background: #0a2540;
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+section {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+}
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+footer {
+  background: #0a2540;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+button {
+  background: #0070f3;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+</style>
 </head>
-<body style="font-family:Arial; text-align:center; padding:40px;">
+
+<body>
+
+<header>
   <h1>IGNO</h1>
-  <p>Welcome to our website.</p>
-  <p>More content coming soon.</p>
+  <p>Simple. Reliable. Business Solutions.</p>
+  <button>Contact Us</button>
+</header>
+
+<section>
+  <h2>What We Do</h2>
+  <p>We help businesses manage systems, processes, and digital operations efficiently.</p>
+</section>
+
+<section class="services">
+  <div class="card">
+    <h3>CRM & Operations</h3>
+    <p>Salesforce, CPQ, and business process support.</p>
+  </div>
+  <div class="card">
+    <h3>Automation</h3>
+    <p>Workflow automation and system optimization.</p>
+  </div>
+  <div class="card">
+    <h3>Consulting</h3>
+    <p>Process improvement and operational guidance.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Get in Touch</h2>
+  <p>Email: contact@igno.co.in</p>
+</section>
+
+<footer>
+  © 2025 IGNO. All rights reserved.
+</footer>
+
 </body>
 </html>
