@@ -1,91 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>IGNO | Business Solutions</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7fa;
-  color: #222;
-}
-header {
-  background: #0a2540;
-  color: white;
-  padding: 60px 20px;
-  text-align: center;
-}
-section {
-  max-width: 900px;
-  margin: auto;
-  padding: 40px 20px;
-}
-.services {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-footer {
-  background: #0a2540;
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-button {
-  background: #0070f3;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-</style>
+  <meta charset="UTF-8" />
+  <title>Your Business Name</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+    }
+
+    header {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: #00e5ff;
+    }
+
+    header p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      color: #ffcc70;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .service img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background: #00e5ff;
+      border: none;
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      color: #000;
+    }
+
+    button:hover {
+      background: #00bcd4;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <h1>IGNO</h1>
-  <p>Simple. Reliable. Business Solutions.</p>
-  <button>Contact Us</button>
-</header>
+  <header>
+    <h1>Your Business Name</h1>
+    <p>Simple. Reliable. Professional solutions for your business.</p>
+    <br>
+    <button>Contact Us</button>
+  </header>
 
-<section>
-  <h2>What We Do</h2>
-  <p>We help businesses manage systems, processes, and digital operations efficiently.</p>
-</section>
+  <section class="card">
+    <h2>About Us</h2>
+    <p>
+      We help small businesses with modern digital solutions.
+      Our focus is simplicity, reliability, and fast execution.
+    </p>
+  </section>
 
-<section class="services">
-  <div class="card">
-    <h3>CRM & Operations</h3>
-    <p>Salesforce, CPQ, and business process support.</p>
-  </div>
-  <div class="card">
-    <h3>Automation</h3>
-    <p>Workflow automation and system optimization.</p>
-  </div>
-  <div class="card">
-    <h3>Consulting</h3>
-    <p>Process improvement and operational guidance.</p>
-  </div>
-</section>
+  <section class="card">
+    <h2>Our Services</h2>
 
-<section>
-  <h2>Get in Touch</h2>
-  <p>Email: Businessigno@gmail.com</p>
-</section>
+    <div class="services">
+      <div class="service">
+        <img src="images/service1.jpg" alt="Service 1">
+        <h3>Service One</h3>
+        <p>Description of your service.</p>
+      </div>
 
-<footer>
-  © 2025 IGNO. All rights reserved.
-</footer>
+      <div class="service">
+        <img src="images/service1.jpg" alt="Service 2">
+        <h3>Service Two</h3>
+        <p>Description of your service.</p>
+      </div>
+
+      <div class="service">
+        <img src="images/service1.jpg" alt="Service 3">
+        <h3>Service Three</h3>
+        <p>Description of your service.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Contact</h2>
+    <p>Email: yourname@email.com</p>
+  </section>
+
+  <footer>
+    © 2025 Your Business Name
+  </footer>
 
 </body>
 </html>
