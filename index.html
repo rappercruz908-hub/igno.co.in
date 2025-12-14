@@ -17,6 +17,7 @@
       color: #ffffff;
     }
 
+    /* HERO */
     #hero {
       position: relative;
       height: 100vh;
@@ -34,7 +35,11 @@
     .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.35);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.35)
+      );
       z-index: 1;
     }
 
@@ -64,12 +69,13 @@
       padding: 14px 28px;
       font-size: 16px;
       border-radius: 6px;
-      background: linear-gradient(135deg, #ff4d4d, #ff8a8a);
+      background: linear-gradient(135deg, #00e5ff, #8a7cff);
       color: #000;
       text-decoration: none;
       display: inline-block;
     }
 
+    /* SECTIONS */
     section {
       max-width: 900px;
       margin: auto;
@@ -77,8 +83,14 @@
       text-align: center;
     }
 
-    h2 { color: #ff8a8a; }
-    p { color: #cbd5e1; line-height: 1.6; }
+    h2 {
+      color: #7dd3ff;
+    }
+
+    p {
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
 
     .cards {
       display: grid;
@@ -88,8 +100,8 @@
     }
 
     .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 10px;
       padding: 30px 20px;
     }
@@ -129,9 +141,18 @@
 <section>
   <h2>Core Capabilities</h2>
   <div class="cards">
-    <div class="card"><h3>AI Agents</h3><p>Autonomous agents that reason, act, and adapt.</p></div>
-    <div class="card"><h3>Workflow Automation</h3><p>Replace manual processes intelligently.</p></div>
-    <div class="card"><h3>Enterprise Integration</h3><p>Seamless system connectivity.</p></div>
+    <div class="card">
+      <h3>AI Agents</h3>
+      <p>Autonomous agents that reason, act, and adapt in real time.</p>
+    </div>
+    <div class="card">
+      <h3>Workflow Automation</h3>
+      <p>Replace manual processes with intelligent orchestration.</p>
+    </div>
+    <div class="card">
+      <h3>Enterprise Integration</h3>
+      <p>Seamless connection with existing tools and systems.</p>
+    </div>
   </div>
 </section>
 
@@ -145,38 +166,33 @@
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
-const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
-/* ===== GRID SETTINGS (75% smaller dots) ===== */
-const dotSize = 2.5;     // was 10
-const gap = 8;           // scaled proportionally
-const proximity = window.innerWidth < 768 ? 80 : 110;
-const shockRadius = 220;
-const shockStrength = window.innerWidth < 768 ? 6 : 4.5;
+const dotSize = 10;
+const gap = 15;
+const proximity = 120;
+const speedTrigger = 100;
+const shockRadius = 250;
+const shockStrength = 5;
 const resistance = 750;
-const returnDuration = 1.4;
+const returnDuration = 1.5;
+const baseColor = "#5227FF";
 
 let dots = [];
-let pointer = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
+let mouse = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
-  const rect = hero.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
   dots = [];
 
   const cell = dotSize + gap;
-  const cols = Math.floor(rect.width / cell);
-  const rows = Math.floor(rect.height / cell);
+  const cols = Math.floor((canvas.width + gap) / cell);
+  const rows = Math.floor((canvas.height + gap) / cell);
 
-  const offsetX = Math.round((rect.width - cols * cell) / 2);
-  const offsetY = Math.round((rect.height - rows * cell) / 2);
+  const offsetX = (canvas.width - (cols * cell - gap)) / 2;
+  const offsetY = (canvas.height - (rows * cell - gap)) / 2;
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
@@ -190,41 +206,53 @@ function resize() {
     }
   }
 }
+
 resize();
 window.addEventListener("resize", resize);
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  dots.forEach(d => {
-    const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 1 : 0.65;
+  for (const d of dots) {
+    const dx = d.cx - mouse.x;
+    const dy = d.cy - mouse.y;
+    const dist = Math.hypot(dx, dy);
+
+    let alpha = dist < proximity ? 1 - dist / proximity : 0.3;
 
     ctx.beginPath();
-    ctx.arc(
-      Math.round(d.cx + d.xOffset),
-      Math.round(d.cy + d.yOffset),
-      dotSize / 2,
-      0,
-      Math.PI * 2
-    );
-    ctx.fillStyle = `rgba(255,80,80,${alpha})`;
+    ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(82,39,255,${alpha})`;
     ctx.fill();
-  });
-
+  }
   requestAnimationFrame(draw);
 }
 draw();
 
-function interact(x, y, strength = 1) {
+window.addEventListener("mousemove", e => {
+  const now = performance.now();
+  const dt = mouse.lastTime ? now - mouse.lastTime : 16;
+
+  mouse.vx = (e.clientX - mouse.lastX) / dt * 1000;
+  mouse.vy = (e.clientY - mouse.lastY) / dt * 1000;
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  mouse.lastX = e.clientX;
+  mouse.lastY = e.clientY;
+  mouse.lastTime = now;
+
+  const speed = Math.hypot(mouse.vx, mouse.vy);
+
   dots.forEach(d => {
-    const dist = Math.hypot(d.cx - x, d.cy - y);
-    if (dist < proximity && !d.active) {
+    const dist = Math.hypot(d.cx - mouse.x, d.cy - mouse.y);
+    if (speed > speedTrigger && dist < proximity && !d.active) {
       d.active = true;
+      gsap.killTweensOf(d);
+
       gsap.to(d, {
         inertia: {
-          xOffset: (d.cx - x) * 0.04 * strength,
-          yOffset: (d.cy - y) * 0.04 * strength,
+          xOffset: d.cx - mouse.x + mouse.vx * 0.005,
+          yOffset: d.cy - mouse.y + mouse.vy * 0.005,
           resistance
         },
         onComplete() {
@@ -232,27 +260,41 @@ function interact(x, y, strength = 1) {
             xOffset: 0,
             yOffset: 0,
             duration: returnDuration,
-            ease: "elastic.out(1,0.8)",
+            ease: "elastic.out(1,0.75)",
             onComplete: () => d.active = false
           });
         }
       });
     }
   });
-}
+});
 
-/* Desktop */
-window.addEventListener("mousemove", e => interact(e.clientX, e.clientY, 1));
-window.addEventListener("click", e => interact(e.clientX, e.clientY, 2));
+window.addEventListener("click", e => {
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - e.clientX, d.cy - e.clientY);
+    if (dist < shockRadius && !d.active) {
+      d.active = true;
+      const falloff = 1 - dist / shockRadius;
 
-/* Mobile */
-window.addEventListener("touchmove", e => {
-  if (e.touches[0]) interact(e.touches[0].clientX, e.touches[0].clientY, 1);
-}, { passive: true });
-
-window.addEventListener("touchstart", e => {
-  if (e.touches[0]) interact(e.touches[0].clientX, e.touches[0].clientY, 2);
-}, { passive: true });
+      gsap.to(d, {
+        inertia: {
+          xOffset: (d.cx - e.clientX) * shockStrength * falloff,
+          yOffset: (d.cy - e.clientY) * shockStrength * falloff,
+          resistance
+        },
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: returnDuration,
+            ease: "elastic.out(1,0.75)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
+});
 </script>
 
 </body>
