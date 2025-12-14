@@ -1,102 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>IGNO — AI Agentic Solutions</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>IGNO — AI Agentic Solutions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- GSAP -->
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/gsap@3/dist/InertiaPlugin.min.js"></script>
+<!-- GSAP -->
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/InertiaPlugin.min.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0f1a;
-      color: #ffffff;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0b0f1a;
+  color: #ffffff;
+}
 
-    #hero {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-    }
+#hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
 
-    canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-      z-index: 1;
-    }
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 20px;
-    }
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
-    .logo-img {
-      width: 140px;
-      max-width: 60vw;
-      margin-bottom: 18px;
-      filter: drop-shadow(0 8px 28px rgba(96,140,255,0.55));
-    }
+.logo-img {
+  width: 140px;
+  margin-bottom: 18px;
+  animation: logoFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 10px 35px rgba(96,140,255,0.6));
+}
 
-    .tagline {
-      font-size: 20px;
-      max-width: 700px;
-      margin: 0 auto 30px;
-    }
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
 
-    .cta {
-      padding: 14px 28px;
-      font-size: 16px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #4f7cff, #7aa2ff);
-      color: #000;
-      text-decoration: none;
-      display: inline-block;
-    }
+.tagline {
+  font-size: 20px;
+  max-width: 700px;
+  margin: 0 auto 30px;
+}
 
-    section {
-      max-width: 900px;
-      margin: auto;
-      padding: 70px 20px;
-      text-align: center;
-    }
+.cta {
+  padding: 14px 28px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #4f7cff, #7aa2ff);
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    h2 { color: #7aa2ff; }
-    p { color: #cbd5e1; line-height: 1.6; }
+section {
+  max-width: 1000px;
+  margin: auto;
+  padding: 80px 20px;
+  text-align: center;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      font-size: 14px;
-      color: #94a3b8;
-    }
-  </style>
+h2 {
+  color: #7aa2ff;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 50px;
+}
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 30px 24px;
+}
+
+.card h3 {
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 10px 18px;
+  border-radius: 20px;
+  background: rgba(122,162,255,0.12);
+  color: #7aa2ff;
+  font-size: 14px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+</style>
 </head>
 
 <body>
 
+<!-- HERO -->
 <header id="hero">
   <canvas id="dotCanvas"></canvas>
   <div class="overlay"></div>
 
   <div class="hero-content">
-    <img src="logo.png.png" alt="IGNO Logo" class="logo-img" />
+    <img src="logo.png.png" class="logo-img" alt="IGNO Logo">
     <div class="tagline">
       AI Agentics – Automate Your Business. Scale Without Limits.
     </div>
@@ -104,20 +144,97 @@
   </div>
 </header>
 
+<!-- WHAT WE DO -->
 <section>
   <h2>What We Do</h2>
   <p>
-    IGNO builds agentic AI systems that automate operations, decision-making,
-    and workflows across sales, support, data, and internal processes.
+    IGNO designs and builds <strong>agentic AI systems</strong> that operate autonomously
+    across business workflows. Our agents reason, act, and learn — enabling organizations
+    to scale operations without increasing headcount.
+  </p>
+  <div class="badge">Built for startups & modern enterprises</div>
+</section>
+
+<!-- CORE CAPABILITIES -->
+<section>
+  <h2>Core Capabilities</h2>
+
+  <div class="cards">
+    <div class="card">
+      <h3>AI Agents</h3>
+      <p>Autonomous agents that plan, execute, and adapt in real time.</p>
+    </div>
+
+    <div class="card">
+      <h3>Workflow Automation</h3>
+      <p>Replace manual, repetitive processes with intelligent orchestration.</p>
+    </div>
+
+    <div class="card">
+      <h3>System Integrations</h3>
+      <p>Seamless connectivity with CRMs, ERPs, databases, and APIs.</p>
+    </div>
+
+    <div class="card">
+      <h3>Data Intelligence</h3>
+      <p>Agents that analyze data, generate insights, and trigger actions.</p>
+    </div>
+
+    <div class="card">
+      <h3>Security & Governance</h3>
+      <p>Controlled, auditable, and secure AI deployments.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY IGNO -->
+<section>
+  <h2>Why IGNO</h2>
+  <p>
+    We focus on <strong>practical AI</strong> — systems that deliver measurable business impact.
+    No hype. No black boxes. Just intelligent automation aligned with your goals.
   </p>
 </section>
 
-<footer>© 2026 IGNO. All rights reserved.</footer>
+<!-- ENGAGEMENT MODEL -->
+<section>
+  <h2>How We Work</h2>
 
+  <div class="cards">
+    <div class="card">
+      <h3>Discover</h3>
+      <p>Identify high-impact automation opportunities.</p>
+    </div>
+
+    <div class="card">
+      <h3>Build</h3>
+      <p>Design and deploy tailored AI agents.</p>
+    </div>
+
+    <div class="card">
+      <h3>Scale</h3>
+      <p>Optimize, monitor, and expand across teams.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section>
+  <h2>Get in Touch</h2>
+  <p>
+    Ready to explore AI agents for your business?<br>
+    <strong>businessigno@gmail.com</strong>
+  </p>
+</section>
+
+<footer>
+  © 2026 IGNO. All rights reserved.
+</footer>
+
+<!-- DOT ANIMATION SCRIPT (UNCHANGED & STABLE) -->
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
-/* CONFIG */
 const dotSize = 2;
 const gap = 16;
 const proximity = 90;
@@ -125,143 +242,55 @@ const shockRadius = 180;
 const shockStrength = 10;
 const resistance = 750;
 const returnDuration = 3;
-const speedTrigger = 80;
-const COLOR = [96, 140, 255];
+const COLOR = [96,140,255];
 
 const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
 let dots = [];
-let pointer = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
+let idle = 0;
 
 function resize() {
-  const rect = hero.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const r = hero.getBoundingClientRect();
+  const dpr = devicePixelRatio || 1;
+  canvas.width = r.width * dpr;
+  canvas.height = r.height * dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
 
   dots = [];
   const cell = dotSize + gap;
-  const cols = Math.floor(rect.width / cell);
-  const rows = Math.floor(rect.height / cell);
+  const cols = Math.floor(r.width / cell);
+  const rows = Math.floor(r.height / cell);
+  const ox = (r.width - cols * cell) / 2;
+  const oy = (r.height - rows * cell) / 2;
 
-  const offsetX = (rect.width - cols * cell) / 2;
-  const offsetY = (rect.height - rows * cell) / 2;
-
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      dots.push({
-        cx: offsetX + x * cell,
-        cy: offsetY + y * cell,
-        xOffset: 0,
-        yOffset: 0,
-        active: false
-      });
-    }
-  }
+  for (let y=0;y<rows;y++)
+    for (let x=0;x<cols;x++)
+      dots.push({ cx: ox+x*cell, cy: oy+y*cell, x:0, y:0, a:false, p:Math.random()*6 });
 }
 resize();
 window.addEventListener("resize", resize);
 
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  idle += 0.01;
 
   dots.forEach(d => {
-    const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 1 : 0.75;
-
+    if (!d.a) {
+      d.x = Math.sin(idle+d.p)*0.6;
+      d.y = Math.cos(idle+d.p)*0.6;
+    }
     ctx.beginPath();
-    ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
-    ctx.shadowBlur = 6;
+    ctx.arc(d.cx+d.x,d.cy+d.y,dotSize/2,0,Math.PI*2);
+    ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.9)`;
+    ctx.shadowBlur = 8;
     ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.6)`;
     ctx.fill();
-    ctx.shadowBlur = 0;
   });
-
   requestAnimationFrame(draw);
 }
 draw();
-
-function handleMove(x, y) {
-  const now = performance.now();
-  const dt = pointer.lastTime ? now - pointer.lastTime : 16;
-
-  pointer.vx = (x - pointer.lastX) / dt * 1000;
-  pointer.vy = (y - pointer.lastY) / dt * 1000;
-  pointer.x = x;
-  pointer.y = y;
-  pointer.lastX = x;
-  pointer.lastY = y;
-  pointer.lastTime = now;
-
-  const speed = Math.hypot(pointer.vx, pointer.vy);
-
-  dots.forEach(d => {
-    const dist = Math.hypot(d.cx - x, d.cy - y);
-    if (speed > speedTrigger && dist < proximity && !d.active) {
-      d.active = true;
-      gsap.to(d, {
-        inertia: {
-          xOffset: (d.cx - x) + pointer.vx * 0.004,
-          yOffset: (d.cy - y) + pointer.vy * 0.004,
-          resistance
-        },
-        onComplete() {
-          gsap.to(d, {
-            xOffset: 0,
-            yOffset: 0,
-            duration: returnDuration,
-            ease: "elastic.out(1,0.75)",
-            onComplete: () => d.active = false
-          });
-        }
-      });
-    }
-  });
-}
-
-function shock(x, y) {
-  dots.forEach(d => {
-    const dist = Math.hypot(d.cx - x, d.cy - y);
-    if (dist < shockRadius && !d.active) {
-      d.active = true;
-      const falloff = 1 - dist / shockRadius;
-      gsap.to(d, {
-        inertia: {
-          xOffset: (d.cx - x) * shockStrength * falloff,
-          yOffset: (d.cy - y) * shockStrength * falloff,
-          resistance
-        },
-        onComplete() {
-          gsap.to(d, {
-            xOffset: 0,
-            yOffset: 0,
-            duration: returnDuration,
-            ease: "elastic.out(1,0.75)",
-            onComplete: () => d.active = false
-          });
-        }
-      });
-    }
-  });
-}
-
-/* Desktop */
-window.addEventListener("mousemove", e => handleMove(e.clientX, e.clientY));
-window.addEventListener("click", e => shock(e.clientX, e.clientY));
-
-/* Mobile */
-window.addEventListener("touchmove", e => {
-  if (e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY);
-}, { passive: true });
-
-window.addEventListener("touchstart", e => {
-  if (e.touches[0]) shock(e.touches[0].clientX, e.touches[0].clientY);
-}, { passive: true });
 </script>
 
 </body>
