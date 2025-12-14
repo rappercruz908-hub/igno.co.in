@@ -68,7 +68,7 @@
       padding: 14px 28px;
       font-size: 16px;
       border-radius: 6px;
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      background: linear-gradient(135deg, #4f7cff, #7aa2ff);
       color: #000;
       text-decoration: none;
       display: inline-block;
@@ -81,7 +81,7 @@
       text-align: center;
     }
 
-    h2 { color: #60a5fa; }
+    h2 { color: #7aa2ff; }
     p { color: #cbd5e1; line-height: 1.6; }
 
     .cards {
@@ -153,17 +153,21 @@ const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
-const dotSize = 10;
-const gap = 15;
-const proximity = window.innerWidth < 768 ? 90 : 120;
-const speedTrigger = 100;
-const shockRadius = 250;
-const shockStrength = window.innerWidth < 768 ? 7 : 5;
+/* === YOUR EXACT SETTINGS === */
+const dotSize = 2;
+const gap = 16;
+const proximity = 90;
+const shockRadius = 180;
+const shockStrength = 10;
 const resistance = 750;
-const returnDuration = 1.5;
+const returnDuration = 3;
+const speedTrigger = 80;
+
+/* Royal Blue */
+const COLOR = [79, 124, 255]; // premium blue
 
 let dots = [];
-let pointer = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
+let pointer = { x: -9999, y: -9999, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
   const rect = hero.getBoundingClientRect();
@@ -175,17 +179,18 @@ function resize() {
 
   dots = [];
   const cell = dotSize + gap;
-  const cols = Math.floor((rect.width + gap) / cell);
-  const rows = Math.floor((rect.height + gap) / cell);
 
-  const offsetX = Math.round((rect.width - (cols * cell - gap)) / 2);
-  const offsetY = Math.round((rect.height - (rows * cell - gap)) / 2);
+  const cols = Math.floor(rect.width / cell);
+  const rows = Math.floor(rect.height / cell);
+
+  const offsetX = (rect.width - cols * cell) / 2;
+  const offsetY = (rect.height - rows * cell) / 2;
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
       dots.push({
-        cx: offsetX + x * cell + dotSize / 2,
-        cy: offsetY + y * cell + dotSize / 2,
+        cx: offsetX + x * cell,
+        cy: offsetY + y * cell,
         xOffset: 0,
         yOffset: 0,
         active: false
@@ -201,17 +206,11 @@ function draw() {
 
   dots.forEach(d => {
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 0.95 - dist / proximity : 0.55;
+    const alpha = dist < proximity ? 1 - dist / proximity : 0.45;
 
     ctx.beginPath();
-    ctx.arc(
-      Math.round(d.cx + d.xOffset),
-      Math.round(d.cy + d.yOffset),
-      dotSize / 2,
-      0,
-      Math.PI * 2
-    );
-    ctx.fillStyle = `rgba(96,165,250,${alpha})`; // premium blue
+    ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
     ctx.fill();
   });
 
@@ -239,8 +238,8 @@ function handleMove(x, y) {
       d.active = true;
       gsap.to(d, {
         inertia: {
-          xOffset: d.cx - x + pointer.vx * 0.005,
-          yOffset: d.cy - y + pointer.vy * 0.005,
+          xOffset: (d.cx - x) + pointer.vx * 0.004,
+          yOffset: (d.cy - y) + pointer.vy * 0.004,
           resistance
         },
         onComplete() {
@@ -248,7 +247,7 @@ function handleMove(x, y) {
             xOffset: 0,
             yOffset: 0,
             duration: returnDuration,
-            ease: "elastic.out(1,0.75)",
+            ease: "elastic.out(1,0.6)",
             onComplete: () => d.active = false
           });
         }
@@ -263,6 +262,7 @@ function shock(x, y) {
     if (dist < shockRadius && !d.active) {
       d.active = true;
       const falloff = 1 - dist / shockRadius;
+
       gsap.to(d, {
         inertia: {
           xOffset: (d.cx - x) * shockStrength * falloff,
@@ -274,7 +274,7 @@ function shock(x, y) {
             xOffset: 0,
             yOffset: 0,
             duration: returnDuration,
-            ease: "elastic.out(1,0.75)",
+            ease: "elastic.out(1,0.6)",
             onComplete: () => d.active = false
           });
         }
