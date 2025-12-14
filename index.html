@@ -69,7 +69,7 @@
       padding: 14px 28px;
       font-size: 16px;
       border-radius: 6px;
-      background: linear-gradient(135deg, #00e5ff, #8a7cff);
+      background: linear-gradient(135deg, #ff4d4d, #ff8a8a);
       color: #000;
       text-decoration: none;
       display: inline-block;
@@ -84,7 +84,7 @@
     }
 
     h2 {
-      color: #7dd3ff;
+      color: #ff8a8a;
     }
 
     p {
@@ -145,10 +145,12 @@
       <h3>AI Agents</h3>
       <p>Autonomous agents that reason, act, and adapt in real time.</p>
     </div>
+
     <div class="card">
       <h3>Workflow Automation</h3>
       <p>Replace manual processes with intelligent orchestration.</p>
     </div>
+
     <div class="card">
       <h3>Enterprise Integration</h3>
       <p>Seamless connection with existing tools and systems.</p>
@@ -169,18 +171,19 @@ gsap.registerPlugin(InertiaPlugin);
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
+/* CONFIG (React Bits equivalent) */
 const dotSize = 10;
 const gap = 15;
-const proximity = 120;
+const proximity = window.innerWidth < 768 ? 90 : 120;
 const speedTrigger = 100;
 const shockRadius = 250;
-const shockStrength = 5;
+const shockStrength = window.innerWidth < 768 ? 7 : 5;
 const resistance = 750;
 const returnDuration = 1.5;
-const baseColor = "#5227FF";
 
+/* STATE */
 let dots = [];
-let mouse = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
+let pointer = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
   canvas.width = window.innerWidth;
@@ -206,7 +209,6 @@ function resize() {
     }
   }
 }
-
 resize();
 window.addEventListener("resize", resize);
 
@@ -214,45 +216,43 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (const d of dots) {
-    const dx = d.cx - mouse.x;
-    const dy = d.cy - mouse.y;
-    const dist = Math.hypot(dx, dy);
-
-    let alpha = dist < proximity ? 1 - dist / proximity : 0.3;
+    const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
+    const alpha = dist < proximity ? 1 - dist / proximity : 0.6;
 
     ctx.beginPath();
     ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(82,39,255,${alpha})`;
+    ctx.fillStyle = `rgba(255, 59, 59, ${alpha})`;
     ctx.fill();
   }
   requestAnimationFrame(draw);
 }
 draw();
 
-window.addEventListener("mousemove", e => {
+/* INTERACTION CORE */
+function handleMove(x, y) {
   const now = performance.now();
-  const dt = mouse.lastTime ? now - mouse.lastTime : 16;
+  const dt = pointer.lastTime ? now - pointer.lastTime : 16;
 
-  mouse.vx = (e.clientX - mouse.lastX) / dt * 1000;
-  mouse.vy = (e.clientY - mouse.lastY) / dt * 1000;
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-  mouse.lastX = e.clientX;
-  mouse.lastY = e.clientY;
-  mouse.lastTime = now;
+  pointer.vx = (x - pointer.lastX) / dt * 1000;
+  pointer.vy = (y - pointer.lastY) / dt * 1000;
+  pointer.x = x;
+  pointer.y = y;
+  pointer.lastX = x;
+  pointer.lastY = y;
+  pointer.lastTime = now;
 
-  const speed = Math.hypot(mouse.vx, mouse.vy);
+  const speed = Math.hypot(pointer.vx, pointer.vy);
 
   dots.forEach(d => {
-    const dist = Math.hypot(d.cx - mouse.x, d.cy - mouse.y);
+    const dist = Math.hypot(d.cx - x, d.cy - y);
     if (speed > speedTrigger && dist < proximity && !d.active) {
       d.active = true;
       gsap.killTweensOf(d);
 
       gsap.to(d, {
         inertia: {
-          xOffset: d.cx - mouse.x + mouse.vx * 0.005,
-          yOffset: d.cy - mouse.y + mouse.vy * 0.005,
+          xOffset: d.cx - x + pointer.vx * 0.005,
+          yOffset: d.cy - y + pointer.vy * 0.005,
           resistance
         },
         onComplete() {
@@ -267,19 +267,19 @@ window.addEventListener("mousemove", e => {
       });
     }
   });
-});
+}
 
-window.addEventListener("click", e => {
+function shock(x, y) {
   dots.forEach(d => {
-    const dist = Math.hypot(d.cx - e.clientX, d.cy - e.clientY);
+    const dist = Math.hypot(d.cx - x, d.cy - y);
     if (dist < shockRadius && !d.active) {
       d.active = true;
       const falloff = 1 - dist / shockRadius;
 
       gsap.to(d, {
         inertia: {
-          xOffset: (d.cx - e.clientX) * shockStrength * falloff,
-          yOffset: (d.cy - e.clientY) * shockStrength * falloff,
+          xOffset: (d.cx - x) * shockStrength * falloff,
+          yOffset: (d.cy - y) * shockStrength * falloff,
           resistance
         },
         onComplete() {
@@ -294,7 +294,26 @@ window.addEventListener("click", e => {
       });
     }
   });
-});
+}
+
+/* DESKTOP */
+window.addEventListener("mousemove", e => handleMove(e.clientX, e.clientY));
+window.addEventListener("click", e => shock(e.clientX, e.clientY));
+
+/* MOBILE */
+window.addEventListener("touchmove", e => {
+  if (e.touches.length) {
+    const t = e.touches[0];
+    handleMove(t.clientX, t.clientY);
+  }
+}, { passive: true });
+
+window.addEventListener("touchstart", e => {
+  if (e.touches.length) {
+    const t = e.touches[0];
+    shock(t.clientX, t.clientY);
+  }
+}, { passive: true });
 </script>
 
 </body>
