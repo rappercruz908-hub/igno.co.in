@@ -34,11 +34,7 @@
     .overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.35),
-        rgba(0,0,0,0.35)
-      );
+      background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
       z-index: 1;
     }
 
@@ -104,11 +100,6 @@
       padding: 30px 20px;
     }
 
-    /* CONTACT SECTION CTA */
-    .contact-cta {
-      margin-top: 50px;
-    }
-
     footer {
       border-top: 1px solid rgba(255,255,255,0.08);
       margin-top: 60px;
@@ -133,19 +124,15 @@
 
   <div class="hero-content">
     <img src="logo.png.png" alt="IGNO Logo" class="logo-img" />
-    <div class="tagline">
-      AI Agentics – Automate Your Business. Scale Without Limits.
-    </div>
+    <div class="tagline">AI Agentics – Automate Your Business. Scale Without Limits.</div>
     <a class="cta" href="mailto:businessigno@gmail.com">Talk to Us</a>
   </div>
 </header>
 
 <section>
   <h2>What We Do</h2>
-  <p>
-    IGNO builds agentic AI systems that automate operations, decision-making,
-    and workflows across sales, support, data, and internal processes.
-  </p>
+  <p>IGNO builds agentic AI systems that automate operations, decision-making,
+     and workflows across sales, support, data, and internal processes.</p>
 </section>
 
 <section>
@@ -156,11 +143,8 @@
     <div class="card"><h3>Enterprise Integration</h3><p>Seamless system connectivity.</p></div>
   </div>
 
-  <!-- CONTACT CTA BELOW CONTENT -->
-  <div class="contact-cta">
-    <a class="cta" href="mailto:businessigno@gmail.com">
-      Contact Us
-    </a>
+  <div style="margin-top:50px;">
+    <a class="cta" href="mailto:businessigno@gmail.com">Contact Us</a>
   </div>
 </section>
 
@@ -171,9 +155,78 @@
   <p>© 2026 IGNO. All rights reserved.</p>
 </footer>
 
-<!-- DOT ANIMATION SCRIPT (UNCHANGED & WORKING) -->
+<!-- HERO DOT ANIMATION (RESTORED & BRIGHT) -->
 <script>
-/* animation code remains exactly the same as your working version */
+  gsap.registerPlugin(InertiaPlugin);
+
+  const dotSize = 2;
+  const gap = 16;
+  const proximity = 90;
+
+  const COLOR = [120, 170, 255];
+
+  const hero = document.getElementById("hero");
+  const canvas = document.getElementById("dotCanvas");
+  const ctx = canvas.getContext("2d");
+
+  let dots = [];
+  let pointer = { x: -9999, y: -9999 };
+
+  function resize() {
+    const rect = hero.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    dots = [];
+    const cell = dotSize + gap;
+    const cols = Math.floor(rect.width / cell);
+    const rows = Math.floor(rect.height / cell);
+
+    const offsetX = (rect.width - cols * cell) / 2;
+    const offsetY = (rect.height - rows * cell) / 2;
+
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        dots.push({
+          cx: offsetX + x * cell,
+          cy: offsetY + y * cell,
+        });
+      }
+    }
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+
+  window.addEventListener("mousemove", e => {
+    const rect = hero.getBoundingClientRect();
+    pointer.x = e.clientX - rect.left;
+    pointer.y = e.clientY - rect.top;
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    dots.forEach(d => {
+      const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
+      const alpha = dist < proximity ? 1 : 0.7;
+
+      ctx.beginPath();
+      ctx.arc(d.cx, d.cy, dotSize / 2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.9)`;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
 </script>
 
 </body>
