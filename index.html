@@ -1,110 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>IGNO — AI Agentic Solutions</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>IGNO — AI Agentic Solutions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- GSAP -->
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/gsap@3/dist/InertiaPlugin.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/InertiaPlugin.min.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0f1a;
-      color: #ffffff;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0b0f1a;
+  color: #ffffff;
+}
 
-    #hero {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-    }
+#hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
 
-    canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.35),
-        rgba(0,0,0,0.35)
-      );
-      z-index: 1;
-    }
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+  z-index: 1;
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 20px;
-    }
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 20px;
+}
 
-    .logo {
-      font-size: 42px;
-      font-weight: bold;
-      letter-spacing: 6px;
-      margin-bottom: 16px;
-    }
+.logo {
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing: 6px;
+  margin-bottom: 16px;
+}
 
-    .tagline {
-      font-size: 20px;
-      max-width: 700px;
-      margin: 0 auto 30px;
-    }
+.tagline {
+  font-size: 20px;
+  max-width: 700px;
+  margin: 0 auto 30px;
+}
 
-    .cta {
-      padding: 14px 28px;
-      font-size: 16px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #ff4d4d, #ff8a8a);
-      color: #000;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    section {
-      max-width: 900px;
-      margin: auto;
-      padding: 70px 20px;
-      text-align: center;
-    }
-
-    h2 { color: #ff8a8a; }
-    p { color: #cbd5e1; line-height: 1.6; }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 30px 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      font-size: 14px;
-      color: #94a3b8;
-    }
-  </style>
+.cta {
+  padding: 14px 28px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #ff4d4d, #ff8a8a);
+  color: #000;
+  text-decoration: none;
+}
+</style>
 </head>
 
 <body>
@@ -122,30 +84,6 @@
   </div>
 </header>
 
-<section>
-  <h2>What We Do</h2>
-  <p>
-    IGNO builds agentic AI systems that automate operations, decision-making,
-    and workflows across sales, support, data, and internal processes.
-  </p>
-</section>
-
-<section>
-  <h2>Core Capabilities</h2>
-  <div class="cards">
-    <div class="card"><h3>AI Agents</h3><p>Autonomous agents that reason, act, and adapt.</p></div>
-    <div class="card"><h3>Workflow Automation</h3><p>Replace manual processes intelligently.</p></div>
-    <div class="card"><h3>Enterprise Integration</h3><p>Seamless system connectivity.</p></div>
-  </div>
-</section>
-
-<section>
-  <h2>Get in Touch</h2>
-  <p>Email: <strong>businessigno@gmail.com</strong></p>
-</section>
-
-<footer>© 2026 IGNO. All rights reserved.</footer>
-
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
@@ -155,6 +93,8 @@ const ctx = canvas.getContext("2d");
 
 const dotSize = 10;
 const gap = 15;
+const cell = dotSize + gap;
+
 const proximity = window.innerWidth < 768 ? 90 : 120;
 const speedTrigger = 100;
 const shockRadius = 250;
@@ -174,18 +114,19 @@ function resize() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   dots = [];
-  const cell = dotSize + gap;
-  const cols = Math.floor((rect.width + gap) / cell);
-  const rows = Math.floor((rect.height + gap) / cell);
 
-  const offsetX = (rect.width - (cols * cell - gap)) / 2;
-  const offsetY = (rect.height - (rows * cell - gap)) / 2;
+  // ✅ uniform inner grid (key fix)
+  const cols = Math.floor(rect.width / cell);
+  const rows = Math.floor(rect.height / cell);
+
+  const startX = (rect.width - (cols - 1) * cell) / 2;
+  const startY = (rect.height - (rows - 1) * cell) / 2;
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
       dots.push({
-        cx: offsetX + x * cell + dotSize / 2,
-        cy: offsetY + y * cell + dotSize / 2,
+        cx: startX + x * cell,
+        cy: startY + y * cell,
         xOffset: 0,
         yOffset: 0,
         active: false
