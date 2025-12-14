@@ -157,76 +157,120 @@
 
 <!-- HERO DOT ANIMATION (RESTORED & BRIGHT) -->
 <script>
-  gsap.registerPlugin(InertiaPlugin);
+/* === GSAP DOT GRID – ACTIVE + GLOWING === */
+gsap.registerPlugin(InertiaPlugin);
 
-  const dotSize = 2;
-  const gap = 16;
-  const proximity = 90;
+const dotSize = 2;
+const gap = 16;
+const proximity = 90;
+const shockRadius = 180;
+const shockStrength = 10;
+const resistance = 750;
+const returnDuration = 3;
+const idleWaveStrength = 2.2;
 
-  const COLOR = [120, 170, 255];
+const COLOR = [110, 150, 255]; // brighter royal blue
 
-  const hero = document.getElementById("hero");
-  const canvas = document.getElementById("dotCanvas");
-  const ctx = canvas.getContext("2d");
+const hero = document.getElementById("hero");
+const canvas = document.getElementById("dotCanvas");
+const ctx = canvas.getContext("2d");
 
-  let dots = [];
-  let pointer = { x: -9999, y: -9999 };
+let dots = [];
+let pointer = { x: -9999, y: -9999, lastX: 0, lastY: 0, lastTime: 0 };
+let time = 0;
 
-  function resize() {
-    const rect = hero.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
+function resize() {
+  const rect = hero.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
 
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    dots = [];
-    const cell = dotSize + gap;
-    const cols = Math.floor(rect.width / cell);
-    const rows = Math.floor(rect.height / cell);
+  dots = [];
+  const cell = dotSize + gap;
+  const cols = Math.floor(rect.width / cell);
+  const rows = Math.floor(rect.height / cell);
 
-    const offsetX = (rect.width - cols * cell) / 2;
-    const offsetY = (rect.height - rows * cell) / 2;
+  const offsetX = (rect.width - cols * cell) / 2;
+  const offsetY = (rect.height - rows * cell) / 2;
 
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        dots.push({
-          cx: offsetX + x * cell,
-          cy: offsetY + y * cell,
-        });
-      }
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      dots.push({
+        cx: offsetX + x * cell,
+        cy: offsetY + y * cell,
+        xOffset: 0,
+        yOffset: 0,
+        wave: Math.random() * Math.PI * 2,
+        active: false
+      });
     }
   }
+}
+resize();
+window.addEventListener("resize", resize);
 
-  resize();
-  window.addEventListener("resize", resize);
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  time += 0.015;
 
-  window.addEventListener("mousemove", e => {
-    const rect = hero.getBoundingClientRect();
-    pointer.x = e.clientX - rect.left;
-    pointer.y = e.clientY - rect.top;
+  dots.forEach(d => {
+    // idle wave motion
+    if (!d.active) {
+      d.xOffset = Math.sin(time + d.wave) * idleWaveStrength;
+      d.yOffset = Math.cos(time + d.wave) * idleWaveStrength;
+    }
+
+    const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
+    const alpha = dist < proximity ? 1 : 0.75;
+
+    ctx.beginPath();
+    ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
+    ctx.shadowBlur = 14;
+    ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.9)`;
+    ctx.fill();
+    ctx.shadowBlur = 0;
   });
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  requestAnimationFrame(draw);
+}
+draw();
 
-    dots.forEach(d => {
-      const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-      const alpha = dist < proximity ? 1 : 0.7;
+function interact(x, y) {
+  pointer.x = x;
+  pointer.y = y;
 
-      ctx.beginPath();
-      ctx.arc(d.cx, d.cy, dotSize / 2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.9)`;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    });
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - x, d.cy - y);
+    if (dist < shockRadius && !d.active) {
+      d.active = true;
+      const force = (1 - dist / shockRadius) * shockStrength;
 
-    requestAnimationFrame(draw);
-  }
+      gsap.to(d, {
+        xOffset: (d.cx - x) * force,
+        yOffset: (d.cy - y) * force,
+        duration: 0.4,
+        ease: "power3.out",
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: returnDuration,
+            ease: "elastic.out(1,0.6)",
+            onComplete: () => (d.active = false)
+          });
+        }
+      });
+    }
+  });
+}
 
-  draw();
+window.addEventListener("mousemove", e => interact(e.clientX, e.clientY));
+window.addEventListener("touchstart", e => {
+  if (e.touches[0]) interact(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
 </script>
 
 </body>
