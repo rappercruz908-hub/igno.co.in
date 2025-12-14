@@ -205,4 +205,56 @@ function handleMove(x, y) {
             xOffset: 0,
             yOffset: 0,
             duration: returnDuration,
-            eas
+            ease: "elastic.out(1,0.75)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
+}
+
+function shock(x, y) {
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - x, d.cy - y);
+    if (dist < shockRadius && !d.active) {
+      d.active = true;
+      const falloff = 1 - dist / shockRadius;
+
+      gsap.to(d, {
+        inertia: {
+          xOffset: (d.cx - x) * shockStrength * falloff,
+          yOffset: (d.cy - y) * shockStrength * falloff,
+          resistance
+        },
+        onUpdate: () => clampDot(d),
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: returnDuration,
+            ease: "elastic.out(1,0.75)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
+}
+
+/* Desktop */
+window.addEventListener("mousemove", e => handleMove(e.clientX, e.clientY));
+window.addEventListener("click", e => shock(e.clientX, e.clientY));
+
+/* Mobile */
+window.addEventListener("touchmove", e => {
+  if (e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+
+window.addEventListener("touchstart", e => {
+  if (e.touches[0]) shock(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+</script>
+
+</body>
+</html>
