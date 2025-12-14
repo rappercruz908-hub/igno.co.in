@@ -51,12 +51,17 @@
       padding: 20px;
     }
 
-    /* LOGO IMAGE */
+    /* LOGO */
     .logo-img {
       width: 140px;
       max-width: 60vw;
       margin-bottom: 18px;
       filter: drop-shadow(0 6px 20px rgba(96,140,255,0.35));
+      transition: filter 0.4s ease;
+    }
+
+    .logo-img:hover {
+      filter: drop-shadow(0 10px 35px rgba(96,140,255,0.65));
     }
 
     .tagline {
@@ -115,9 +120,7 @@
   <div class="overlay"></div>
 
   <div class="hero-content">
-    <!-- LOGO REPLACEMENT -->
-    <img src="logo.png.png" alt="IGNO Logo" class="logo-img" />
-
+    <img src="logo.png.png" alt="IGNO Logo" class="logo-img" id="logo" />
     <div class="tagline">
       AI Agentics – Automate Your Business. Scale Without Limits.
     </div>
@@ -149,10 +152,10 @@
 
 <footer>© 2026 IGNO. All rights reserved.</footer>
 
-<!-- DOT ANIMATION SCRIPT (UNCHANGED) -->
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
+/* CONFIG */
 const dotSize = 2;
 const gap = 16;
 const proximity = 90;
@@ -161,15 +164,15 @@ const shockStrength = 10;
 const resistance = 750;
 const returnDuration = 3;
 const speedTrigger = 80;
-
 const COLOR = [96, 140, 255];
 
 const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
+const logo = document.getElementById("logo");
 
 let dots = [];
-let pointer = { x: -9999, y: -9999, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
+let pointer = { x: -9999, y: -9999 };
 
 function resize() {
   const rect = hero.getBoundingClientRect();
@@ -202,27 +205,53 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
+/* FLOATING LOGO */
+gsap.to(logo, {
+  y: -10,
+  duration: 4,
+  repeat: -1,
+  yoyo: true,
+  ease: "sine.inOut"
+});
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  let glowStrength = 0;
+
   dots.forEach(d => {
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 1 : 0.8;
+    const alpha = dist < proximity ? 1 : 0.75;
+
+    if (dist < proximity) glowStrength += 1;
 
     ctx.beginPath();
     ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
-    ctx.shadowBlur = 5;
+    ctx.shadowBlur = 6;
     ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.7)`;
     ctx.fill();
     ctx.shadowBlur = 0;
   });
 
+  logo.style.filter =
+    `drop-shadow(0 8px ${20 + glowStrength}px rgba(96,140,255,0.45))`;
+
   requestAnimationFrame(draw);
 }
 draw();
 
-/* Interaction handlers unchanged */
+/* POINTER */
+window.addEventListener("mousemove", e => {
+  pointer.x = e.clientX;
+  pointer.y = e.clientY;
+});
+window.addEventListener("touchmove", e => {
+  if (e.touches[0]) {
+    pointer.x = e.touches[0].clientX;
+    pointer.y = e.touches[0].clientY;
+  }
+}, { passive: true });
 </script>
 
 </body>
