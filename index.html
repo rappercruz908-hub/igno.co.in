@@ -34,7 +34,7 @@
     .overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+      background: rgba(0,0,0,0.35);
       z-index: 1;
     }
 
@@ -50,13 +50,13 @@
     .logo-img {
       width: 140px;
       margin-bottom: 18px;
-      filter: drop-shadow(0 8px 24px rgba(96,140,255,0.5));
-      animation: float 6s ease-in-out infinite;
+      filter: drop-shadow(0 10px 28px rgba(96,140,255,0.45));
+      animation: floatLogo 6s ease-in-out infinite;
     }
 
-    @keyframes float {
+    @keyframes floatLogo {
       0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+      50% { transform: translateY(-10px); }
     }
 
     .tagline {
@@ -66,7 +66,7 @@
     }
 
     .cta {
-      padding: 14px 32px;
+      padding: 14px 28px;
       font-size: 16px;
       border-radius: 6px;
       background: linear-gradient(135deg, #4f7cff, #7aa2ff);
@@ -86,32 +86,12 @@
     h2 { color: #7aa2ff; }
     p { color: #cbd5e1; line-height: 1.6; }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 30px 20px;
-    }
-
     footer {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin-top: 60px;
-      padding: 40px 20px;
       text-align: center;
+      padding: 40px 20px;
       font-size: 14px;
       color: #94a3b8;
-    }
-
-    footer a {
-      color: #7aa2ff;
-      text-decoration: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
   </style>
 </head>
@@ -131,53 +111,38 @@
 
 <section>
   <h2>What We Do</h2>
-  <p>IGNO builds agentic AI systems that automate operations, decision-making,
-     and workflows across sales, support, data, and internal processes.</p>
-</section>
-
-<section>
-  <h2>Core Capabilities</h2>
-  <div class="cards">
-    <div class="card"><h3>AI Agents</h3><p>Autonomous agents that reason, act, and adapt.</p></div>
-    <div class="card"><h3>Workflow Automation</h3><p>Replace manual processes intelligently.</p></div>
-    <div class="card"><h3>Enterprise Integration</h3><p>Seamless system connectivity.</p></div>
-  </div>
-
-  <div style="margin-top:50px;">
-    <a class="cta" href="mailto:businessigno@gmail.com">Contact Us</a>
-  </div>
+  <p>
+    IGNO builds agentic AI systems that automate operations, decision-making,
+    and workflows across sales, support, and internal processes.
+  </p>
 </section>
 
 <footer>
-  <p><strong>IGNO</strong> — AI Agentic Systems & Automation</p>
-  <p>📩 <a href="mailto:businessigno@gmail.com">businessigno@gmail.com</a></p>
-  <p>Built with ❤️ for modern businesses</p>
-  <p>© 2026 IGNO. All rights reserved.</p>
+  © 2026 IGNO · AI Agentic Solutions · businessigno@gmail.com
 </footer>
 
-<!-- HERO DOT ANIMATION (RESTORED & BRIGHT) -->
 <script>
-/* === GSAP DOT GRID – ACTIVE + GLOWING === */
 gsap.registerPlugin(InertiaPlugin);
 
-const dotSize = 2;
-const gap = 16;
-const proximity = 90;
-const shockRadius = 180;
-const shockStrength = 10;
-const resistance = 750;
-const returnDuration = 3;
-const idleWaveStrength = 2.2;
+/* === CONFIG (UNCHANGED MOTION) === */
+const DOT_SIZE = 2;
+const GAP = 16;
+const PROXIMITY = 90;
+const SHOCK_RADIUS = 180;
+const SHOCK_STRENGTH = 10;
+const RESISTANCE = 750;
+const RETURN_DURATION = 3;
+const SPEED_TRIGGER = 80;
 
-const COLOR = [110, 150, 255]; // brighter royal blue
+/* Royal blue */
+const BASE_COLOR = [96, 140, 255];
 
 const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
 let dots = [];
-let pointer = { x: -9999, y: -9999, lastX: 0, lastY: 0, lastTime: 0 };
-let time = 0;
+let pointer = { x: -9999, y: -9999, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
   const rect = hero.getBoundingClientRect();
@@ -188,7 +153,7 @@ function resize() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   dots = [];
-  const cell = dotSize + gap;
+  const cell = DOT_SIZE + GAP;
   const cols = Math.floor(rect.width / cell);
   const rows = Math.floor(rect.height / cell);
 
@@ -202,7 +167,6 @@ function resize() {
         cy: offsetY + y * cell,
         xOffset: 0,
         yOffset: 0,
-        wave: Math.random() * Math.PI * 2,
         active: false
       });
     }
@@ -213,23 +177,19 @@ window.addEventListener("resize", resize);
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  time += 0.015;
 
   dots.forEach(d => {
-    // idle wave motion
-    if (!d.active) {
-      d.xOffset = Math.sin(time + d.wave) * idleWaveStrength;
-      d.yOffset = Math.cos(time + d.wave) * idleWaveStrength;
-    }
-
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 1 : 0.75;
+    const hover = dist < PROXIMITY;
+
+    const alpha = hover ? 1 : 0.6;
+    const glow = hover ? 14 : 6;
 
     ctx.beginPath();
-    ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
-    ctx.shadowBlur = 14;
-    ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.9)`;
+    ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, DOT_SIZE / 2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${BASE_COLOR[0]},${BASE_COLOR[1]},${BASE_COLOR[2]},${alpha})`;
+    ctx.shadowBlur = glow;
+    ctx.shadowColor = `rgba(${BASE_COLOR[0]},${BASE_COLOR[1]},${BASE_COLOR[2]},0.9)`;
     ctx.fill();
     ctx.shadowBlur = 0;
   });
@@ -238,28 +198,38 @@ function draw() {
 }
 draw();
 
-function interact(x, y) {
+/* === ORIGINAL MOTION LOGIC (RESTORED) === */
+function handleMove(x, y) {
+  const now = performance.now();
+  const dt = pointer.lastTime ? now - pointer.lastTime : 16;
+
+  pointer.vx = (x - pointer.lastX) / dt * 1000;
+  pointer.vy = (y - pointer.lastY) / dt * 1000;
   pointer.x = x;
   pointer.y = y;
+  pointer.lastX = x;
+  pointer.lastY = y;
+  pointer.lastTime = now;
+
+  const speed = Math.hypot(pointer.vx, pointer.vy);
 
   dots.forEach(d => {
     const dist = Math.hypot(d.cx - x, d.cy - y);
-    if (dist < shockRadius && !d.active) {
+    if (speed > SPEED_TRIGGER && dist < PROXIMITY && !d.active) {
       d.active = true;
-      const force = (1 - dist / shockRadius) * shockStrength;
-
       gsap.to(d, {
-        xOffset: (d.cx - x) * force,
-        yOffset: (d.cy - y) * force,
-        duration: 0.4,
-        ease: "power3.out",
+        inertia: {
+          xOffset: d.cx - x + pointer.vx * 0.005,
+          yOffset: d.cy - y + pointer.vy * 0.005,
+          resistance: RESISTANCE
+        },
         onComplete() {
           gsap.to(d, {
             xOffset: 0,
             yOffset: 0,
-            duration: returnDuration,
-            ease: "elastic.out(1,0.6)",
-            onComplete: () => (d.active = false)
+            duration: RETURN_DURATION,
+            ease: "elastic.out(1,0.75)",
+            onComplete: () => d.active = false
           });
         }
       });
@@ -267,9 +237,43 @@ function interact(x, y) {
   });
 }
 
-window.addEventListener("mousemove", e => interact(e.clientX, e.clientY));
+function shock(x, y) {
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - x, d.cy - y);
+    if (dist < SHOCK_RADIUS && !d.active) {
+      d.active = true;
+      const falloff = 1 - dist / SHOCK_RADIUS;
+      gsap.to(d, {
+        inertia: {
+          xOffset: (d.cx - x) * SHOCK_STRENGTH * falloff,
+          yOffset: (d.cy - y) * SHOCK_STRENGTH * falloff,
+          resistance: RESISTANCE
+        },
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: RETURN_DURATION,
+            ease: "elastic.out(1,0.75)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
+}
+
+/* Desktop */
+window.addEventListener("mousemove", e => handleMove(e.clientX, e.clientY));
+window.addEventListener("click", e => shock(e.clientX, e.clientY));
+
+/* Mobile */
+window.addEventListener("touchmove", e => {
+  if (e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+
 window.addEventListener("touchstart", e => {
-  if (e.touches[0]) interact(e.touches[0].clientX, e.touches[0].clientY);
+  if (e.touches[0]) shock(e.touches[0].clientX, e.touches[0].clientY);
 }, { passive: true });
 </script>
 
