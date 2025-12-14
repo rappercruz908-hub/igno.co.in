@@ -153,8 +153,8 @@ const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
-/* === YOUR EXACT SETTINGS === */
-const dotSize = 2;
+/* === FINAL SETTINGS === */
+const dotSize = 5;
 const gap = 16;
 const proximity = 90;
 const shockRadius = 180;
@@ -163,8 +163,8 @@ const resistance = 750;
 const returnDuration = 3;
 const speedTrigger = 80;
 
-/* Royal Blue */
-const COLOR = [79, 124, 255]; // premium blue
+/* Royal Blue (brighter) */
+const COLOR = [96, 140, 255];
 
 let dots = [];
 let pointer = { x: -9999, y: -9999, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
@@ -179,7 +179,6 @@ function resize() {
 
   dots = [];
   const cell = dotSize + gap;
-
   const cols = Math.floor(rect.width / cell);
   const rows = Math.floor(rect.height / cell);
 
@@ -206,12 +205,15 @@ function draw() {
 
   dots.forEach(d => {
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 1 - dist / proximity : 0.45;
+    const alpha = dist < proximity ? 1 - dist / proximity : 0.7;
 
     ctx.beginPath();
     ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.6)`;
     ctx.fill();
+    ctx.shadowBlur = 0;
   });
 
   requestAnimationFrame(draw);
