@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <title>IGNO — AI Agentic Solutions</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="IGNO builds agentic AI systems that automate workflows, decision-making, and operations for modern businesses." />
+
+<!-- OpenGraph -->
+<meta property="og:title" content="IGNO — AI Agentic Solutions" />
+<meta property="og:description" content="Automate your business with autonomous AI agents." />
+<meta property="og:type" content="website" />
 
 <!-- GSAP -->
 <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
@@ -60,23 +67,30 @@ canvas {
 
 .tagline {
   font-size: 20px;
-  max-width: 700px;
+  max-width: 720px;
   margin: 0 auto 30px;
 }
 
 .cta {
-  padding: 14px 28px;
-  border-radius: 6px;
+  padding: 14px 30px;
+  border-radius: 8px;
   background: linear-gradient(135deg, #4f7cff, #7aa2ff);
   color: #000;
   text-decoration: none;
   font-weight: bold;
 }
 
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(122,162,255,0.4), transparent);
+  margin: 80px auto;
+  max-width: 800px;
+}
+
 section {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: auto;
-  padding: 80px 20px;
+  padding: 90px 20px;
   text-align: center;
 }
 
@@ -92,38 +106,33 @@ p {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 26px;
   margin-top: 50px;
 }
 
 .card {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 30px 24px;
+  border-radius: 16px;
+  padding: 34px 26px;
 }
 
 .card h3 {
-  color: #ffffff;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.badge {
-  display: inline-block;
-  margin-top: 30px;
-  padding: 10px 18px;
-  border-radius: 20px;
-  background: rgba(122,162,255,0.12);
-  color: #7aa2ff;
-  font-size: 14px;
+.highlight {
+  color: #ffffff;
+  font-weight: bold;
 }
 
 footer {
   text-align: center;
-  padding: 40px;
+  padding: 50px 20px;
   font-size: 14px;
   color: #94a3b8;
+  position: relative;
 }
 </style>
 </head>
@@ -138,67 +147,68 @@ footer {
   <div class="hero-content">
     <img src="logo.png.png" class="logo-img" alt="IGNO Logo">
     <div class="tagline">
-      AI Agentics – Automate Your Business. Scale Without Limits.
+      Autonomous AI agents that run workflows, make decisions,
+      and scale your operations — without adding headcount.
     </div>
-    <a class="cta" href="mailto:businessigno@gmail.com">Talk to Us</a>
+    <a class="cta" href="https://calendly.com/" target="_blank">
+      Book a Discovery Call
+    </a>
   </div>
 </header>
 
+<div class="divider"></div>
+
 <!-- WHAT WE DO -->
 <section>
-  <h2>What We Do</h2>
+  <h2>What We Build</h2>
   <p>
-    IGNO designs and builds <strong>agentic AI systems</strong> that operate autonomously
-    across business workflows. Our agents reason, act, and learn — enabling organizations
-    to scale operations without increasing headcount.
+    IGNO designs <span class="highlight">agentic AI systems</span> that operate independently
+    across sales, support, finance, and internal operations.
+    These agents observe, reason, and act — just like a digital workforce.
   </p>
-  <div class="badge">Built for startups & modern enterprises</div>
 </section>
 
-<!-- CORE CAPABILITIES -->
+<!-- CAPABILITIES -->
 <section>
   <h2>Core Capabilities</h2>
 
   <div class="cards">
     <div class="card">
       <h3>AI Agents</h3>
-      <p>Autonomous agents that plan, execute, and adapt in real time.</p>
+      <p>Goal-driven agents that execute tasks end-to-end.</p>
     </div>
 
     <div class="card">
       <h3>Workflow Automation</h3>
-      <p>Replace manual, repetitive processes with intelligent orchestration.</p>
+      <p>Intelligent orchestration across tools and teams.</p>
     </div>
 
     <div class="card">
       <h3>System Integrations</h3>
-      <p>Seamless connectivity with CRMs, ERPs, databases, and APIs.</p>
+      <p>CRMs, ERPs, databases, APIs, and custom platforms.</p>
     </div>
 
     <div class="card">
-      <h3>Data Intelligence</h3>
-      <p>Agents that analyze data, generate insights, and trigger actions.</p>
-    </div>
-
-    <div class="card">
-      <h3>Security & Governance</h3>
-      <p>Controlled, auditable, and secure AI deployments.</p>
+      <h3>Decision Intelligence</h3>
+      <p>Agents that analyze data and trigger actions.</p>
     </div>
   </div>
 </section>
 
-<!-- WHY IGNO -->
+<!-- CASE STUDY -->
 <section>
-  <h2>Why IGNO</h2>
+  <h2>Example Use Case</h2>
   <p>
-    We focus on <strong>practical AI</strong> — systems that deliver measurable business impact.
-    No hype. No black boxes. Just intelligent automation aligned with your goals.
+    A service operations team reduced manual workload by
+    <span class="highlight">40%</span> by deploying AI agents
+    to triage requests, update systems, and escalate exceptions —
+    without changing their existing tools.
   </p>
 </section>
 
-<!-- ENGAGEMENT MODEL -->
+<!-- HOW WE WORK -->
 <section>
-  <h2>How We Work</h2>
+  <h2>Engagement Model</h2>
 
   <div class="cards">
     <div class="card">
@@ -213,25 +223,28 @@ footer {
 
     <div class="card">
       <h3>Scale</h3>
-      <p>Optimize, monitor, and expand across teams.</p>
+      <p>Monitor, improve, and expand across teams.</p>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- FINAL CTA -->
 <section>
-  <h2>Get in Touch</h2>
+  <h2>Let’s Build Your AI Workforce</h2>
   <p>
-    Ready to explore AI agents for your business?<br>
-    <strong>businessigno@gmail.com</strong>
+    Whether you’re experimenting or scaling,
+    we help you deploy AI agents responsibly and effectively.
   </p>
+  <a class="cta" href="mailto:businessigno@gmail.com">
+    Start the Conversation
+  </a>
 </section>
 
 <footer>
   © 2026 IGNO. All rights reserved.
 </footer>
 
-<!-- DOT ANIMATION SCRIPT (UNCHANGED & STABLE) -->
+<!-- DOT ANIMATION (STABLE, MOBILE + DESKTOP) -->
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
