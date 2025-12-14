@@ -24,7 +24,7 @@
       overflow: hidden;
     }
 
-    #dotGridCanvas {
+    canvas {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -63,17 +63,14 @@
       font-size: 20px;
       max-width: 700px;
       margin: 0 auto 30px;
-      color: #ffffff;
     }
 
     .cta {
       padding: 14px 28px;
       font-size: 16px;
-      border: none;
       border-radius: 6px;
       background: linear-gradient(135deg, #00e5ff, #8a7cff);
       color: #000;
-      cursor: pointer;
       text-decoration: none;
       display: inline-block;
     }
@@ -88,7 +85,6 @@
 
     h2 {
       color: #7dd3ff;
-      margin-bottom: 20px;
     }
 
     p {
@@ -121,78 +117,70 @@
 
 <body>
 
-  <!-- HERO -->
-  <header id="hero">
-    <canvas id="dotGridCanvas"></canvas>
-    <div class="overlay"></div>
+<header id="hero">
+  <canvas id="dotCanvas"></canvas>
+  <div class="overlay"></div>
 
-    <div class="hero-content">
-      <div class="logo">IGNO</div>
-      <div class="tagline">
-        AI Agentics – Automate Your Business. Scale Without Limits.
-      </div>
-      <a class="cta" href="mailto:businessigno@gmail.com">Talk to Us</a>
+  <div class="hero-content">
+    <div class="logo">IGNO</div>
+    <div class="tagline">
+      AI Agentics – Automate Your Business. Scale Without Limits.
     </div>
-  </header>
+    <a class="cta" href="mailto:businessigno@gmail.com">Talk to Us</a>
+  </div>
+</header>
 
-  <!-- ABOUT -->
-  <section>
-    <h2>What We Do</h2>
-    <p>
-      IGNO builds agentic AI systems that automate operations, decision-making,
-      and workflows across sales, support, data, and internal processes.
-    </p>
-  </section>
+<section>
+  <h2>What We Do</h2>
+  <p>
+    IGNO builds agentic AI systems that automate operations, decision-making,
+    and workflows across sales, support, data, and internal processes.
+  </p>
+</section>
 
-  <!-- SERVICES -->
-  <section>
-    <h2>Core Capabilities</h2>
-
-    <div class="cards">
-      <div class="card">
-        <h3>AI Agents</h3>
-        <p>Autonomous agents that reason, act, and adapt in real time.</p>
-      </div>
-
-      <div class="card">
-        <h3>Workflow Automation</h3>
-        <p>Replace manual processes with intelligent orchestration.</p>
-      </div>
-
-      <div class="card">
-        <h3>Enterprise Integration</h3>
-        <p>Seamless connection with existing tools and systems.</p>
-      </div>
+<section>
+  <h2>Core Capabilities</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>AI Agents</h3>
+      <p>Autonomous agents that reason, act, and adapt in real time.</p>
     </div>
-  </section>
+    <div class="card">
+      <h3>Workflow Automation</h3>
+      <p>Replace manual processes with intelligent orchestration.</p>
+    </div>
+    <div class="card">
+      <h3>Enterprise Integration</h3>
+      <p>Seamless connection with existing tools and systems.</p>
+    </div>
+  </div>
+</section>
 
-  <!-- CONTACT -->
-  <section>
-    <h2>Get in Touch</h2>
-    <p>
-      Email: <strong>businessigno@gmail.com</strong>
-    </p>
-  </section>
+<section>
+  <h2>Get in Touch</h2>
+  <p>Email: <strong>businessigno@gmail.com</strong></p>
+</section>
 
-  <footer>
-    © 2026 IGNO. All rights reserved.
-  </footer>
+<footer>© 2026 IGNO. All rights reserved.</footer>
 
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
-const canvas = document.getElementById("dotGridCanvas");
+const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
-let dots = [];
 const dotSize = 10;
 const gap = 15;
 const proximity = 120;
+const speedTrigger = 100;
 const shockRadius = 250;
 const shockStrength = 5;
 const resistance = 750;
 const returnDuration = 1.5;
 const baseColor = "#5227FF";
+
+let dots = [];
+let mouse = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
   canvas.width = window.innerWidth;
@@ -200,14 +188,17 @@ function resize() {
   dots = [];
 
   const cell = dotSize + gap;
-  const cols = Math.floor(canvas.width / cell);
-  const rows = Math.floor(canvas.height / cell);
+  const cols = Math.floor((canvas.width + gap) / cell);
+  const rows = Math.floor((canvas.height + gap) / cell);
+
+  const offsetX = (canvas.width - (cols * cell - gap)) / 2;
+  const offsetY = (canvas.height - (rows * cell - gap)) / 2;
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
       dots.push({
-        cx: x * cell + cell / 2,
-        cy: y * cell + cell / 2,
+        cx: offsetX + x * cell + dotSize / 2,
+        cy: offsetY + y * cell + dotSize / 2,
         xOffset: 0,
         yOffset: 0,
         active: false
@@ -221,25 +212,47 @@ window.addEventListener("resize", resize);
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   for (const d of dots) {
+    const dx = d.cx - mouse.x;
+    const dy = d.cy - mouse.y;
+    const dist = Math.hypot(dx, dy);
+
+    let alpha = dist < proximity ? 1 - dist / proximity : 0.3;
+
     ctx.beginPath();
     ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
-    ctx.fillStyle = baseColor;
+    ctx.fillStyle = `rgba(82,39,255,${alpha})`;
     ctx.fill();
   }
   requestAnimationFrame(draw);
 }
 draw();
 
-window.addEventListener("click", e => {
-  for (const d of dots) {
-    const dist = Math.hypot(d.cx - e.clientX, d.cy - e.clientY);
-    if (dist < shockRadius && !d.active) {
+window.addEventListener("mousemove", e => {
+  const now = performance.now();
+  const dt = mouse.lastTime ? now - mouse.lastTime : 16;
+
+  mouse.vx = (e.clientX - mouse.lastX) / dt * 1000;
+  mouse.vy = (e.clientY - mouse.lastY) / dt * 1000;
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  mouse.lastX = e.clientX;
+  mouse.lastY = e.clientY;
+  mouse.lastTime = now;
+
+  const speed = Math.hypot(mouse.vx, mouse.vy);
+
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - mouse.x, d.cy - mouse.y);
+    if (speed > speedTrigger && dist < proximity && !d.active) {
       d.active = true;
+      gsap.killTweensOf(d);
+
       gsap.to(d, {
         inertia: {
-          xOffset: (d.cx - e.clientX) * shockStrength,
-          yOffset: (d.cy - e.clientY) * shockStrength,
+          xOffset: d.cx - mouse.x + mouse.vx * 0.005,
+          yOffset: d.cy - mouse.y + mouse.vy * 0.005,
           resistance
         },
         onComplete() {
@@ -253,7 +266,34 @@ window.addEventListener("click", e => {
         }
       });
     }
-  }
+  });
+});
+
+window.addEventListener("click", e => {
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - e.clientX, d.cy - e.clientY);
+    if (dist < shockRadius && !d.active) {
+      d.active = true;
+      const falloff = 1 - dist / shockRadius;
+
+      gsap.to(d, {
+        inertia: {
+          xOffset: (d.cx - e.clientX) * shockStrength * falloff,
+          yOffset: (d.cy - e.clientY) * shockStrength * falloff,
+          resistance
+        },
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: returnDuration,
+            ease: "elastic.out(1,0.75)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
 });
 </script>
 
