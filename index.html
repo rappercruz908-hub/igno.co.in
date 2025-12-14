@@ -5,12 +5,7 @@
 <title>IGNO — AI Agentic Solutions</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="IGNO builds agentic AI systems that automate workflows, decision-making, and operations for modern businesses." />
-
-<!-- OpenGraph -->
-<meta property="og:title" content="IGNO — AI Agentic Solutions" />
-<meta property="og:description" content="Automate your business with autonomous AI agents." />
-<meta property="og:type" content="website" />
+<meta name="description" content="IGNO builds agentic AI systems that automate workflows and operations." />
 
 <!-- GSAP -->
 <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
@@ -51,40 +46,35 @@ canvas {
   text-align: center;
   top: 50%;
   transform: translateY(-50%);
+  padding: 20px;
 }
 
 .logo-img {
   width: 140px;
   margin-bottom: 18px;
-  animation: logoFloat 6s ease-in-out infinite;
-  filter: drop-shadow(0 10px 35px rgba(96,140,255,0.6));
+  animation: floatLogo 6s ease-in-out infinite;
+  filter: drop-shadow(0 12px 40px rgba(96,140,255,0.6));
 }
 
-@keyframes logoFloat {
+@keyframes floatLogo {
   0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-12px); }
 }
 
 .tagline {
   font-size: 20px;
-  max-width: 720px;
+  max-width: 700px;
   margin: 0 auto 30px;
 }
 
 .cta {
-  padding: 14px 30px;
+  padding: 14px 28px;
+  font-size: 16px;
   border-radius: 8px;
   background: linear-gradient(135deg, #4f7cff, #7aa2ff);
   color: #000;
   text-decoration: none;
   font-weight: bold;
-}
-
-.divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(122,162,255,0.4), transparent);
-  margin: 80px auto;
-  max-width: 800px;
 }
 
 section {
@@ -94,15 +84,8 @@ section {
   text-align: center;
 }
 
-h2 {
-  color: #7aa2ff;
-  margin-bottom: 20px;
-}
-
-p {
-  color: #cbd5e1;
-  line-height: 1.7;
-}
+h2 { color: #7aa2ff; }
+p { color: #cbd5e1; line-height: 1.7; }
 
 .cards {
   display: grid;
@@ -118,21 +101,11 @@ p {
   padding: 34px 26px;
 }
 
-.card h3 {
-  margin-bottom: 10px;
-}
-
-.highlight {
-  color: #ffffff;
-  font-weight: bold;
-}
-
 footer {
   text-align: center;
   padding: 50px 20px;
   font-size: 14px;
   color: #94a3b8;
-  position: relative;
 }
 </style>
 </head>
@@ -146,105 +119,54 @@ footer {
 
   <div class="hero-content">
     <img src="logo.png.png" class="logo-img" alt="IGNO Logo">
+
+    <!-- ORIGINAL TAGLINE RETAINED -->
     <div class="tagline">
-      Autonomous AI agents that run workflows, make decisions,
-      and scale your operations — without adding headcount.
+      AI Agentics – Automate Your Business. Scale Without Limits.
     </div>
-    <a class="cta" href="https://calendly.com/" target="_blank">
-      Book a Discovery Call
+
+    <a class="cta" href="mailto:businessigno@gmail.com">
+      Talk to Us
     </a>
   </div>
 </header>
 
-<div class="divider"></div>
-
-<!-- WHAT WE DO -->
+<!-- CONTENT -->
 <section>
-  <h2>What We Build</h2>
+  <h2>What We Do</h2>
   <p>
-    IGNO designs <span class="highlight">agentic AI systems</span> that operate independently
-    across sales, support, finance, and internal operations.
-    These agents observe, reason, and act — just like a digital workforce.
+    IGNO builds agentic AI systems that automate operations,
+    decision-making, and workflows across sales, support,
+    data, and internal processes.
   </p>
 </section>
 
-<!-- CAPABILITIES -->
 <section>
   <h2>Core Capabilities</h2>
-
   <div class="cards">
     <div class="card">
       <h3>AI Agents</h3>
-      <p>Goal-driven agents that execute tasks end-to-end.</p>
+      <p>Autonomous agents that reason, act, and adapt.</p>
     </div>
-
     <div class="card">
       <h3>Workflow Automation</h3>
-      <p>Intelligent orchestration across tools and teams.</p>
+      <p>Replace manual processes intelligently.</p>
     </div>
-
     <div class="card">
-      <h3>System Integrations</h3>
-      <p>CRMs, ERPs, databases, APIs, and custom platforms.</p>
-    </div>
-
-    <div class="card">
-      <h3>Decision Intelligence</h3>
-      <p>Agents that analyze data and trigger actions.</p>
+      <h3>Enterprise Integration</h3>
+      <p>Seamless system connectivity.</p>
     </div>
   </div>
 </section>
 
-<!-- CASE STUDY -->
 <section>
-  <h2>Example Use Case</h2>
-  <p>
-    A service operations team reduced manual workload by
-    <span class="highlight">40%</span> by deploying AI agents
-    to triage requests, update systems, and escalate exceptions —
-    without changing their existing tools.
-  </p>
+  <h2>Get in Touch</h2>
+  <p>Email: <strong>businessigno@gmail.com</strong></p>
 </section>
 
-<!-- HOW WE WORK -->
-<section>
-  <h2>Engagement Model</h2>
+<footer>© 2026 IGNO. All rights reserved.</footer>
 
-  <div class="cards">
-    <div class="card">
-      <h3>Discover</h3>
-      <p>Identify high-impact automation opportunities.</p>
-    </div>
-
-    <div class="card">
-      <h3>Build</h3>
-      <p>Design and deploy tailored AI agents.</p>
-    </div>
-
-    <div class="card">
-      <h3>Scale</h3>
-      <p>Monitor, improve, and expand across teams.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section>
-  <h2>Let’s Build Your AI Workforce</h2>
-  <p>
-    Whether you’re experimenting or scaling,
-    we help you deploy AI agents responsibly and effectively.
-  </p>
-  <a class="cta" href="mailto:businessigno@gmail.com">
-    Start the Conversation
-  </a>
-</section>
-
-<footer>
-  © 2026 IGNO. All rights reserved.
-</footer>
-
-<!-- DOT ANIMATION (STABLE, MOBILE + DESKTOP) -->
+<!-- DOT ANIMATION -->
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
@@ -255,6 +177,7 @@ const shockRadius = 180;
 const shockStrength = 10;
 const resistance = 750;
 const returnDuration = 3;
+
 const COLOR = [96,140,255];
 
 const hero = document.getElementById("hero");
@@ -262,11 +185,11 @@ const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
 let dots = [];
-let idle = 0;
+let pointer = { x: 0, y: 0 };
 
 function resize() {
   const r = hero.getBoundingClientRect();
-  const dpr = devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio || 1;
   canvas.width = r.width * dpr;
   canvas.height = r.height * dpr;
   ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -278,32 +201,67 @@ function resize() {
   const ox = (r.width - cols * cell) / 2;
   const oy = (r.height - rows * cell) / 2;
 
-  for (let y=0;y<rows;y++)
-    for (let x=0;x<cols;x++)
+  for (let y=0;y<rows;y++) {
+    for (let x=0;x<cols;x++) {
       dots.push({ cx: ox+x*cell, cy: oy+y*cell, x:0, y:0, a:false, p:Math.random()*6 });
+    }
+  }
 }
 resize();
 window.addEventListener("resize", resize);
 
 function draw() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  idle += 0.01;
 
   dots.forEach(d => {
     if (!d.a) {
-      d.x = Math.sin(idle+d.p)*0.6;
-      d.y = Math.cos(idle+d.p)*0.6;
+      d.x += (Math.sin(d.p += 0.01)) * 0.05;
+      d.y += (Math.cos(d.p)) * 0.05;
     }
+
     ctx.beginPath();
     ctx.arc(d.cx+d.x,d.cy+d.y,dotSize/2,0,Math.PI*2);
-    ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.9)`;
+    ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.95)`;
     ctx.shadowBlur = 8;
     ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.6)`;
     ctx.fill();
   });
+
   requestAnimationFrame(draw);
 }
 draw();
+
+function shock(x,y) {
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx-x,d.cy-y);
+    if (dist < shockRadius && !d.a) {
+      d.a = true;
+      gsap.to(d,{
+        inertia:{
+          x:(d.cx-x)*shockStrength,
+          y:(d.cy-y)*shockStrength,
+          resistance
+        },
+        onComplete(){
+          gsap.to(d,{
+            x:0,y:0,duration:returnDuration,
+            ease:"elastic.out(1,0.7)",
+            onComplete:()=>d.a=false
+          });
+        }
+      });
+    }
+  });
+}
+
+window.addEventListener("mousemove", e=>{
+  pointer.x=e.clientX; pointer.y=e.clientY;
+});
+window.addEventListener("click", e=>shock(e.clientX,e.clientY));
+
+window.addEventListener("touchstart", e=>{
+  if(e.touches[0]) shock(e.touches[0].clientX,e.touches[0].clientY);
+},{passive:true});
 </script>
 
 </body>
