@@ -149,12 +149,8 @@
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
-const hero = document.getElementById("hero");
-const canvas = document.getElementById("dotCanvas");
-const ctx = canvas.getContext("2d");
-
-/* === FINAL SETTINGS === */
-const dotSize = 5;
+/* === SETTINGS === */
+const dotSize = 2;
 const gap = 16;
 const proximity = 90;
 const shockRadius = 180;
@@ -163,8 +159,12 @@ const resistance = 750;
 const returnDuration = 3;
 const speedTrigger = 80;
 
-/* Royal Blue (brighter) */
+/* Bright Royal Blue */
 const COLOR = [96, 140, 255];
+
+const hero = document.getElementById("hero");
+const canvas = document.getElementById("dotCanvas");
+const ctx = canvas.getContext("2d");
 
 let dots = [];
 let pointer = { x: -9999, y: -9999, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
@@ -205,13 +205,13 @@ function draw() {
 
   dots.forEach(d => {
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 1 - dist / proximity : 0.7;
+    const alpha = dist < proximity ? 1 : 0.8;
 
     ctx.beginPath();
     ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
-    ctx.shadowBlur = 6;
-    ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.6)`;
+    ctx.shadowBlur = 5;
+    ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.7)`;
     ctx.fill();
     ctx.shadowBlur = 0;
   });
