@@ -51,12 +51,16 @@
       padding: 20px;
     }
 
-    /* LOGO IMAGE */
     .logo-img {
       width: 140px;
-      max-width: 60vw;
       margin-bottom: 18px;
-      filter: drop-shadow(0 6px 20px rgba(96,140,255,0.35));
+      filter: drop-shadow(0 8px 24px rgba(96,140,255,0.5));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
     }
 
     .tagline {
@@ -115,9 +119,7 @@
   <div class="overlay"></div>
 
   <div class="hero-content">
-    <!-- LOGO REPLACEMENT -->
     <img src="logo.png.png" alt="IGNO Logo" class="logo-img" />
-
     <div class="tagline">
       AI Agentics – Automate Your Business. Scale Without Limits.
     </div>
@@ -142,14 +144,8 @@
   </div>
 </section>
 
-<section>
-  <h2>Get in Touch</h2>
-  <p>Email: <strong>businessigno@gmail.com</strong></p>
-</section>
-
 <footer>© 2026 IGNO. All rights reserved.</footer>
 
-<!-- DOT ANIMATION SCRIPT (UNCHANGED) -->
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
@@ -162,14 +158,14 @@ const resistance = 750;
 const returnDuration = 3;
 const speedTrigger = 80;
 
-const COLOR = [96, 140, 255];
+const COLOR = [96, 140, 255]; // royal blue
 
 const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
 let dots = [];
-let pointer = { x: -9999, y: -9999, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
+let pointer = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
   const rect = hero.getBoundingClientRect();
@@ -207,13 +203,13 @@ function draw() {
 
   dots.forEach(d => {
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
-    const alpha = dist < proximity ? 1 : 0.8;
+    const alpha = dist < proximity ? 1 : 0.9;
 
     ctx.beginPath();
     ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},${alpha})`;
-    ctx.shadowBlur = 5;
-    ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.7)`;
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = `rgba(${COLOR[0]},${COLOR[1]},${COLOR[2]},0.8)`;
     ctx.fill();
     ctx.shadowBlur = 0;
   });
@@ -222,7 +218,80 @@ function draw() {
 }
 draw();
 
-/* Interaction handlers unchanged */
+function handleMove(x, y) {
+  const now = performance.now();
+  const dt = pointer.lastTime ? now - pointer.lastTime : 16;
+
+  pointer.vx = (x - pointer.lastX) / dt * 1000;
+  pointer.vy = (y - pointer.lastY) / dt * 1000;
+  pointer.x = x;
+  pointer.y = y;
+  pointer.lastX = x;
+  pointer.lastY = y;
+  pointer.lastTime = now;
+
+  const speed = Math.hypot(pointer.vx, pointer.vy);
+
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - x, d.cy - y);
+    if (speed > speedTrigger && dist < proximity && !d.active) {
+      d.active = true;
+      gsap.to(d, {
+        inertia: {
+          xOffset: d.cx - x + pointer.vx * 0.004,
+          yOffset: d.cy - y + pointer.vy * 0.004,
+          resistance
+        },
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: returnDuration,
+            ease: "elastic.out(1,0.7)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
+}
+
+function shock(x, y) {
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - x, d.cy - y);
+    if (dist < shockRadius && !d.active) {
+      d.active = true;
+      const falloff = 1 - dist / shockRadius;
+      gsap.to(d, {
+        inertia: {
+          xOffset: (d.cx - x) * shockStrength * falloff,
+          yOffset: (d.cy - y) * shockStrength * falloff,
+          resistance
+        },
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: returnDuration,
+            ease: "elastic.out(1,0.7)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
+}
+
+window.addEventListener("mousemove", e => handleMove(e.clientX, e.clientY));
+window.addEventListener("click", e => shock(e.clientX, e.clientY));
+
+window.addEventListener("touchmove", e => {
+  if (e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+
+window.addEventListener("touchstart", e => {
+  if (e.touches[0]) shock(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
 </script>
 
 </body>
