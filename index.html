@@ -1,72 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>IGNO — AI Agentic Solutions</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <title>IGNO — AI Agentic Solutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-<script src="https://unpkg.com/gsap@3/dist/InertiaPlugin.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/InertiaPlugin.min.js"></script>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #0b0f1a;
-  color: #ffffff;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f1a;
+      color: #ffffff;
+    }
 
-#hero {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
+    #hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  z-index: 1;
-}
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.35),
+        rgba(0,0,0,0.35)
+      );
+      z-index: 1;
+    }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 20px;
-}
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 20px;
+    }
 
-.logo {
-  font-size: 42px;
-  font-weight: bold;
-  letter-spacing: 6px;
-  margin-bottom: 16px;
-}
+    .logo {
+      font-size: 42px;
+      font-weight: bold;
+      letter-spacing: 6px;
+      margin-bottom: 16px;
+    }
 
-.tagline {
-  font-size: 20px;
-  max-width: 700px;
-  margin: 0 auto 30px;
-}
+    .tagline {
+      font-size: 20px;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
 
-.cta {
-  padding: 14px 28px;
-  border-radius: 6px;
-  background: linear-gradient(135deg,#ff4d4d,#ff8a8a);
-  color: #000;
-  text-decoration: none;
-}
-</style>
+    .cta {
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #ff4d4d, #ff8a8a);
+      color: #000;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 70px 20px;
+      text-align: center;
+    }
+
+    h2 { color: #ff8a8a; }
+    p { color: #cbd5e1; line-height: 1.6; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 30px 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+  </style>
 </head>
 
 <body>
@@ -84,6 +122,30 @@ canvas {
   </div>
 </header>
 
+<section>
+  <h2>What We Do</h2>
+  <p>
+    IGNO builds agentic AI systems that automate operations, decision-making,
+    and workflows across sales, support, data, and internal processes.
+  </p>
+</section>
+
+<section>
+  <h2>Core Capabilities</h2>
+  <div class="cards">
+    <div class="card"><h3>AI Agents</h3><p>Autonomous agents that reason, act, and adapt.</p></div>
+    <div class="card"><h3>Workflow Automation</h3><p>Replace manual processes intelligently.</p></div>
+    <div class="card"><h3>Enterprise Integration</h3><p>Seamless system connectivity.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Get in Touch</h2>
+  <p>Email: <strong>businessigno@gmail.com</strong></p>
+</section>
+
+<footer>© 2026 IGNO. All rights reserved.</footer>
+
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
@@ -93,7 +155,6 @@ const ctx = canvas.getContext("2d");
 
 const dotSize = 10;
 const gap = 15;
-const padding = dotSize * 2;     // 🔑 SAFE EDGE ZONE
 const proximity = window.innerWidth < 768 ? 90 : 120;
 const speedTrigger = 100;
 const shockRadius = 250;
@@ -102,7 +163,6 @@ const resistance = 750;
 const returnDuration = 1.5;
 
 let dots = [];
-let bounds = {};
 let pointer = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
@@ -113,27 +173,19 @@ function resize() {
   canvas.height = rect.height * dpr;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  bounds = {
-    left: padding,
-    right: rect.width - padding,
-    top: padding,
-    bottom: rect.height - padding
-  };
-
   dots = [];
   const cell = dotSize + gap;
+  const cols = Math.floor((rect.width + gap) / cell);
+  const rows = Math.floor((rect.height + gap) / cell);
 
-  const cols = Math.floor((rect.width - padding * 2 + gap) / cell);
-  const rows = Math.floor((rect.height - padding * 2 + gap) / cell);
+  const offsetX = (rect.width - (cols * cell - gap)) / 2;
+  const offsetY = (rect.height - (rows * cell - gap)) / 2;
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      const cx = bounds.left + x * cell + dotSize / 2;
-      const cy = bounds.top + y * cell + dotSize / 2;
-
       dots.push({
-        cx,
-        cy,
+        cx: offsetX + x * cell + dotSize / 2,
+        cy: offsetY + y * cell + dotSize / 2,
         xOffset: 0,
         yOffset: 0,
         active: false
@@ -144,23 +196,10 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
-function clampDot(dot) {
-  dot.xOffset = Math.max(
-    bounds.left - dot.cx,
-    Math.min(bounds.right - dot.cx, dot.xOffset)
-  );
-  dot.yOffset = Math.max(
-    bounds.top - dot.cy,
-    Math.min(bounds.bottom - dot.cy, dot.yOffset)
-  );
-}
-
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   dots.forEach(d => {
-    clampDot(d);
-
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
     const alpha = dist < proximity ? 1 - dist / proximity : 0.6;
 
@@ -192,14 +231,12 @@ function handleMove(x, y) {
     const dist = Math.hypot(d.cx - x, d.cy - y);
     if (speed > speedTrigger && dist < proximity && !d.active) {
       d.active = true;
-
       gsap.to(d, {
         inertia: {
           xOffset: d.cx - x + pointer.vx * 0.005,
           yOffset: d.cy - y + pointer.vy * 0.005,
           resistance
         },
-        onUpdate: () => clampDot(d),
         onComplete() {
           gsap.to(d, {
             xOffset: 0,
@@ -220,14 +257,12 @@ function shock(x, y) {
     if (dist < shockRadius && !d.active) {
       d.active = true;
       const falloff = 1 - dist / shockRadius;
-
       gsap.to(d, {
         inertia: {
           xOffset: (d.cx - x) * shockStrength * falloff,
           yOffset: (d.cy - y) * shockStrength * falloff,
           resistance
         },
-        onUpdate: () => clampDot(d),
         onComplete() {
           gsap.to(d, {
             xOffset: 0,
