@@ -17,7 +17,6 @@
       color: #ffffff;
     }
 
-    /* HERO */
     #hero {
       position: relative;
       height: 100vh;
@@ -37,8 +36,8 @@
       inset: 0;
       background: linear-gradient(
         180deg,
-        rgba(0, 0, 0, 0.35),
-        rgba(0, 0, 0, 0.35)
+        rgba(0,0,0,0.35),
+        rgba(0,0,0,0.35)
       );
       z-index: 1;
     }
@@ -75,7 +74,6 @@
       display: inline-block;
     }
 
-    /* SECTIONS */
     section {
       max-width: 900px;
       margin: auto;
@@ -83,14 +81,8 @@
       text-align: center;
     }
 
-    h2 {
-      color: #ff8a8a;
-    }
-
-    p {
-      color: #cbd5e1;
-      line-height: 1.6;
-    }
+    h2 { color: #ff8a8a; }
+    p { color: #cbd5e1; line-height: 1.6; }
 
     .cards {
       display: grid;
@@ -100,8 +92,8 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
       padding: 30px 20px;
     }
@@ -141,20 +133,9 @@
 <section>
   <h2>Core Capabilities</h2>
   <div class="cards">
-    <div class="card">
-      <h3>AI Agents</h3>
-      <p>Autonomous agents that reason, act, and adapt in real time.</p>
-    </div>
-
-    <div class="card">
-      <h3>Workflow Automation</h3>
-      <p>Replace manual processes with intelligent orchestration.</p>
-    </div>
-
-    <div class="card">
-      <h3>Enterprise Integration</h3>
-      <p>Seamless connection with existing tools and systems.</p>
-    </div>
+    <div class="card"><h3>AI Agents</h3><p>Autonomous agents that reason, act, and adapt.</p></div>
+    <div class="card"><h3>Workflow Automation</h3><p>Replace manual processes intelligently.</p></div>
+    <div class="card"><h3>Enterprise Integration</h3><p>Seamless system connectivity.</p></div>
   </div>
 </section>
 
@@ -168,10 +149,10 @@
 <script>
 gsap.registerPlugin(InertiaPlugin);
 
+const hero = document.getElementById("hero");
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
-/* CONFIG (React Bits equivalent) */
 const dotSize = 10;
 const gap = 15;
 const proximity = window.innerWidth < 768 ? 90 : 120;
@@ -181,21 +162,24 @@ const shockStrength = window.innerWidth < 768 ? 7 : 5;
 const resistance = 750;
 const returnDuration = 1.5;
 
-/* STATE */
 let dots = [];
 let pointer = { x: 0, y: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastTime: 0 };
 
 function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const rect = hero.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
   dots = [];
-
   const cell = dotSize + gap;
-  const cols = Math.floor((canvas.width + gap) / cell);
-  const rows = Math.floor((canvas.height + gap) / cell);
+  const cols = Math.floor((rect.width + gap) / cell);
+  const rows = Math.floor((rect.height + gap) / cell);
 
-  const offsetX = (canvas.width - (cols * cell - gap)) / 2;
-  const offsetY = (canvas.height - (rows * cell - gap)) / 2;
+  const offsetX = (rect.width - (cols * cell - gap)) / 2;
+  const offsetY = (rect.height - (rows * cell - gap)) / 2;
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
@@ -215,15 +199,69 @@ window.addEventListener("resize", resize);
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (const d of dots) {
+  dots.forEach(d => {
     const dist = Math.hypot(d.cx - pointer.x, d.cy - pointer.y);
     const alpha = dist < proximity ? 1 - dist / proximity : 0.6;
 
     ctx.beginPath();
     ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, dotSize / 2, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255, 59, 59, ${alpha})`;
+    ctx.fillStyle = `rgba(255,59,59,${alpha})`;
     ctx.fill();
-  }
+  });
+
   requestAnimationFrame(draw);
 }
-draw()
+draw();
+
+function handleMove(x, y) {
+  const now = performance.now();
+  const dt = pointer.lastTime ? now - pointer.lastTime : 16;
+
+  pointer.vx = (x - pointer.lastX) / dt * 1000;
+  pointer.vy = (y - pointer.lastY) / dt * 1000;
+  pointer.x = x;
+  pointer.y = y;
+  pointer.lastX = x;
+  pointer.lastY = y;
+  pointer.lastTime = now;
+
+  const speed = Math.hypot(pointer.vx, pointer.vy);
+
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - x, d.cy - y);
+    if (speed > speedTrigger && dist < proximity && !d.active) {
+      d.active = true;
+      gsap.to(d, {
+        inertia: {
+          xOffset: d.cx - x + pointer.vx * 0.005,
+          yOffset: d.cy - y + pointer.vy * 0.005,
+          resistance
+        },
+        onComplete() {
+          gsap.to(d, {
+            xOffset: 0,
+            yOffset: 0,
+            duration: returnDuration,
+            ease: "elastic.out(1,0.75)",
+            onComplete: () => d.active = false
+          });
+        }
+      });
+    }
+  });
+}
+
+function shock(x, y) {
+  dots.forEach(d => {
+    const dist = Math.hypot(d.cx - x, d.cy - y);
+    if (dist < shockRadius && !d.active) {
+      d.active = true;
+      const falloff = 1 - dist / shockRadius;
+      gsap.to(d, {
+        inertia: {
+          xOffset: (d.cx - x) * shockStrength * falloff,
+          yOffset: (d.cy - y) * shockStrength * falloff,
+          resistance
+        },
+        onComplete() {
+          gsap.to(
