@@ -211,47 +211,108 @@
 <script>
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
+
 let dots = [];
-let mouse = { x: -1000, y: -1000 };
+let mouse = { x: -9999, y: -9999 };
+
+const DOT_RADIUS = 1.4;
+const GAP = 18;
+const INTERACTION_RADIUS = 140;
+const REPULSION_FORCE = 0.35;
+const RETURN_FORCE = 0.05;
+const FRICTION = 0.88;
 
 function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
   dots = [];
-  const gap = 18;
-  for (let y = 0; y < canvas.height; y += gap) {
-    for (let x = 0; x < canvas.width; x += gap) {
-      dots.push({ x, y, ox: 0, oy: 0 });
+  for (let y = 0; y < window.innerHeight; y += GAP) {
+    for (let x = 0; x < window.innerWidth; x += GAP) {
+      dots.push({
+        bx: x,
+        by: y,
+        x: x,
+        y: y,
+        vx: 0,
+        vy: 0
+      });
     }
   }
 }
 resize();
 window.addEventListener("resize", resize);
 
-function draw() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   dots.forEach(d => {
-    const dist = Math.hypot(d.x - mouse.x, d.y - mouse.y);
-    if (dist < 140) {
-      const force = (1 - dist / 140) * 10;
-      d.ox += (d.x - mouse.x) * force * 0.01;
-      d.oy += (d.y - mouse.y) * force * 0.01;
+    // Distance to pointer
+    const dx = d.x - mouse.x;
+    const dy = d.y - mouse.y;
+    const dist = Math.hypot(dx, dy);
+
+    // Repulsion on hover/touch
+    if (dist < INTERACTION_RADIUS) {
+      const force = (1 - dist / INTERACTION_RADIUS) * REPULSION_FORCE;
+      d.vx += (dx / dist) * force;
+      d.vy += (dy / dist) * force;
     }
-    d.ox *= 0.92;
-    d.oy *= 0.92;
 
+    // Spring back to base position
+    d.vx += (d.bx - d.x) * RETURN_FORCE;
+    d.vy += (d.by - d.y) * RETURN_FORCE;
+
+    // Apply velocity
+    d.vx *= FRICTION;
+    d.vy *= FRICTION;
+    d.x += d.vx;
+    d.y += d.vy;
+
+    // Draw dot
     ctx.beginPath();
-    ctx.arc(d.x + d.ox, d.y + d.oy, 1.2, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(120,160,255,0.85)";
+    ctx.arc(d.x, d.y, DOT_RADIUS, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(120,160,255,0.9)";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "rgba(120,160,255,0.8)";
     ctx.fill();
+    ctx.shadowBlur = 0;
   });
-  requestAnimationFrame(draw);
-}
-draw();
 
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Mouse & touch support
 window.addEventListener("mousemove", e => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
+});
+
+window.addEventListener("mouseleave", () => {
+  mouse.x = -9999;
+  mouse.y = -9999;
+});
+
+window.addEventListener("touchstart", e => {
+  if (e.touches[0]) {
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+  }
+}, { passive: true });
+
+window.addEventListener("touchmove", e => {
+  if (e.touches[0]) {
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+  }
+}, { passive: true });
+
+window.addEventListener("touchend", () => {
+  mouse.x = -9999;
+  mouse.y = -9999;
 });
 </script>
 
