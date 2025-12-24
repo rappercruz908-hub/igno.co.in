@@ -1,73 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ================= BASIC ================= -->
   <meta charset="UTF-8" />
+  <title>IGNO AI Agentic Solutions | AI Automation & Intelligent Workflows</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Automation Solutions</title>
-  <meta name="description" content="AI Automation solutions for businesses – workflows, integrations, and AI agents to save time and money." />
+
+  <!-- ================= SEO ================= -->
+  <meta name="description" content="IGNO builds AI agentic systems and intelligent automation to streamline operations, integrate systems, and scale modern businesses using autonomous AI agents." />
+  <meta name="keywords" content="AI automation, AI agents, agentic AI, workflow automation, business automation, n8n automation, enterprise AI, intelligent agents" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://igno.co.in/" />
+
+  <!-- ================= OPEN GRAPH ================= -->
+  <meta property="og:title" content="IGNO — AI Agentic Solutions" />
+  <meta property="og:description" content="Agentic AI systems that automate workflows, decisions, and operations for modern businesses." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://igno.co.in/" />
+  <meta property="og:image" content="https://igno.co.in/og-image.png" />
+
+  <!-- ================= TWITTER ================= -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IGNO — AI Agentic Solutions" />
+  <meta name="twitter:description" content="AI agents and automation that scale businesses intelligently." />
+  <meta name="twitter:image" content="https://igno.co.in/og-image.png" />
+
+  <!-- ================= SCHEMA ================= -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "IGNO AI Agentic Solutions",
+    "url": "https://igno.co.in",
+    "description": "AI agentic systems and workflow automation for businesses.",
+    "email": "businessigno@gmail.com",
+    "serviceType": "AI Automation & Agentic AI",
+    "areaServed": "Worldwide"
+  }
+  </script>
+
+  <!-- ================= GSAP ================= -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+  <!-- ================= STYLES ================= -->
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #0f172a; color: #e5e7eb; }
-    header { padding: 60px 20px; text-align: center; background: linear-gradient(135deg, #2563eb, #4f46e5); }
-    header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    header p { font-size: 1.2rem; max-width: 700px; margin: auto; }
-    section { padding: 60px 20px; max-width: 1100px; margin: auto; }
-    h2 { color: #93c5fd; margin-bottom: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .card { background: #111827; padding: 20px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-    .card h3 { margin-top: 0; color: #60a5fa; }
-    .cta { text-align: center; background: #020617; padding: 60px 20px; }
-    .cta a { display: inline-block; margin-top: 20px; padding: 15px 30px; background: #2563eb; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
-    footer { text-align: center; padding: 20px; background: #020617; color: #9ca3af; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f1a;
+      color: #ffffff;
+    }
+
+    header {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55));
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 20px;
+    }
+
+    .logo-img {
+      width: 140px;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 10px 30px rgba(96,140,255,0.6));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+
+    .tagline {
+      font-size: 20px;
+      max-width: 760px;
+      margin: 0 auto 30px;
+      color: #dbeafe;
+    }
+
+    .cta {
+      padding: 14px 34px;
+      font-size: 16px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #4f7cff, #7aa2ff);
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    h2 { color: #7aa2ff; }
+    p { color: #cbd5e1; line-height: 1.7; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 32px 22px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 50px 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    footer a {
+      color: #7aa2ff;
+      text-decoration: none;
+    }
   </style>
 </head>
+
 <body>
 
 <header>
-  <h1>AI Automation for Modern Businesses</h1>
-  <p>We design and deploy AI-powered automations that eliminate manual work, reduce errors, and scale operations effortlessly.</p>
+  <canvas id="dotCanvas"></canvas>
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <img src="logo.png.png" alt="IGNO AI Automation Logo" class="logo-img" />
+    <h1>AI Agentic Solutions for Business Automation</h1>
+    <p class="tagline">Autonomous AI agents that automate workflows, decisions, and operations — built to scale.</p>
+    <a class="cta" href="mailto:businessigno@gmail.com">Talk to Us</a>
+  </div>
 </header>
 
 <section>
   <h2>What We Do</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Workflow Automation</h3>
-      <p>Automate repetitive business processes using tools like n8n, APIs, and AI agents.</p>
-    </div>
-    <div class="card">
-      <h3>AI Agents</h3>
-      <p>Custom AI agents for email handling, reporting, CRM updates, and decision support.</p>
-    </div>
-    <div class="card">
-      <h3>System Integrations</h3>
-      <p>Connect CRMs, ERPs, finance systems, and internal tools into a single automated flow.</p>
-    </div>
-    <div class="card">
-      <h3>Cost Optimization</h3>
-      <p>Reduce operational costs by replacing manual tasks with reliable automation.</p>
-    </div>
-  </div>
+  <p>
+    IGNO designs and deploys <strong>agentic AI systems</strong> that automate business workflows,
+    integrate enterprise systems, and enable intelligent decision-making across sales, support,
+    finance, and operations.
+  </p>
 </section>
 
 <section>
-  <h2>Who This Is For</h2>
-  <div class="grid">
-    <div class="card"><p>Small & Medium Businesses</p></div>
-    <div class="card"><p>Finance & Operations Teams</p></div>
-    <div class="card"><p>Sales & CRM Teams</p></div>
-    <div class="card"><p>Founders & Solopreneurs</p></div>
+  <h2>Core Capabilities</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>AI Agents</h3>
+      <p>Autonomous agents that reason, act, and continuously improve.</p>
+    </div>
+    <div class="card">
+      <h3>Workflow Automation</h3>
+      <p>Replace manual processes with intelligent, scalable automation.</p>
+    </div>
+    <div class="card">
+      <h3>Enterprise Integration</h3>
+      <p>Seamless integration across CRMs, ERPs, APIs, and internal systems.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:50px;">
+    <a class="cta" href="mailto:businessigno@gmail.com">Contact Us</a>
   </div>
 </section>
 
-<section class="cta">
-  <h2>Ready to Automate?</h2>
-  <p>Let’s identify high-impact automations for your business.</p>
-  <a href="mailto:contact@yourdomain.com">Get in Touch</a>
-</section>
-
 <footer>
-  <p>© 2025 AI Automation Solutions. All rights reserved.</p>
+  <p><strong>IGNO</strong> — AI Agentic Systems & Automation</p>
+  <p>📩 <a href="mailto:businessigno@gmail.com">businessigno@gmail.com</a></p>
+  <p>Built with ❤️ for modern businesses</p>
+  <p>© 2026 IGNO. All rights reserved.</p>
 </footer>
+
+<!-- ================= INTERACTIVE DOT GRID ================= -->
+<script>
+const canvas = document.getElementById("dotCanvas");
+const ctx = canvas.getContext("2d");
+let dots = [];
+let mouse = { x: -1000, y: -1000 };
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  dots = [];
+  const gap = 18;
+  for (let y = 0; y < canvas.height; y += gap) {
+    for (let x = 0; x < canvas.width; x += gap) {
+      dots.push({ x, y, ox: 0, oy: 0 });
+    }
+  }
+}
+resize();
+window.addEventListener("resize", resize);
+
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  dots.forEach(d => {
+    const dist = Math.hypot(d.x - mouse.x, d.y - mouse.y);
+    if (dist < 140) {
+      const force = (1 - dist / 140) * 10;
+      d.ox += (d.x - mouse.x) * force * 0.01;
+      d.oy += (d.y - mouse.y) * force * 0.01;
+    }
+    d.ox *= 0.92;
+    d.oy *= 0.92;
+
+    ctx.beginPath();
+    ctx.arc(d.x + d.ox, d.y + d.oy, 1.2, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(120,160,255,0.85)";
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+window.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+</script>
 
 </body>
 </html>
