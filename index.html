@@ -316,5 +316,60 @@ window.addEventListener("touchend", () => {
 });
 </script>
 
+<div style="max-width:600px;margin:40px auto;">
+  <input
+    id="userInput"
+    placeholder="Ask me anything..."
+    style="width:100%;padding:10px;font-size:16px;"
+  />
+
+  <button
+    onclick="sendMessage()"
+    style="margin-top:10px;padding:10px 20px;font-size:16px;"
+  >
+    Send
+  </button>
+
+  <div
+    id="response"
+    style="margin-top:20px;white-space:pre-wrap;"
+  ></div>
+</div>
+
+<script>
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const responseDiv = document.getElementById("response");
+
+  const message = input.value.trim();
+  if (!message) return;
+
+  responseDiv.innerText = "Thinking...";
+
+  try {
+    const res = await fetch(
+      "https://n8n.srv1212396.hstgr.cloud/webhook/rag-chat",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: message
+        })
+      }
+    );
+
+    const data = await res.json();
+    responseDiv.innerText = data.reply || "No response received.";
+  } catch (err) {
+    responseDiv.innerText = "Error connecting to AI.";
+    console.error(err);
+  }
+
+  input.value = "";
+}
+</script>
+
 </body>
 </html>
