@@ -1,127 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
-<a href="/about.html">About Us</a>
-<a href="/faq.html">FAQ</a>
 <head>
-  <!-- ================= BASIC ================= -->
-  <meta charset="UTF-8" />
-  <title>IGNO AI Agentic Solutions | AI Automation & Intelligent Workflows</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- ================= BASIC ================= -->
+<meta charset="UTF-8" />
+<title>IGNO AI Agentic Solutions | AI Automation & Intelligent Workflows</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ================= SEO ================= -->
-  <meta name="description" content="IGNO builds AI agentic systems and intelligent automation to streamline operations, integrate systems, and scale modern businesses using autonomous AI agents." />
-  <meta name="keywords" content="AI automation, AI agents, agentic AI, workflow automation, business automation, n8n automation, enterprise AI, intelligent agents" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://igno.co.in/" />
+<!-- ================= SEO ================= -->
+<meta name="description" content="IGNO builds AI agentic systems and intelligent automation to streamline operations, integrate systems, and scale modern businesses using autonomous AI agents." />
+<meta name="keywords" content="AI automation, AI agents, agentic AI, workflow automation, business automation, n8n automation, enterprise AI, intelligent agents" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://igno.co.in/" />
 
-  <!-- ================= OPEN GRAPH ================= -->
-  <meta property="og:title" content="IGNO — AI Agentic Solutions" />
-  <meta property="og:description" content="Agentic AI systems that automate workflows, decisions, and operations for modern businesses." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://igno.co.in/" />
-  <meta property="og:image" content="https://igno.co.in/og-image.png" />
+<!-- ================= OPEN GRAPH ================= -->
+<meta property="og:title" content="IGNO — AI Agentic Solutions" />
+<meta property="og:description" content="Agentic AI systems that automate workflows, decisions, and operations for modern businesses." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://igno.co.in/" />
+<meta property="og:image" content="https://igno.co.in/og-image.png" />
 
-  <!-- ================= TWITTER ================= -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="IGNO — AI Agentic Solutions" />
-  <meta name="twitter:description" content="AI agents and automation that scale businesses intelligently." />
-  <meta name="twitter:image" content="https://igno.co.in/og-image.png" />
+<!-- ================= TWITTER ================= -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="IGNO — AI Agentic Solutions" />
+<meta name="twitter:description" content="AI agents and automation that scale businesses intelligently." />
+<meta name="twitter:image" content="https://igno.co.in/og-image.png" />
 
-  <!-- ================= SCHEMA ================= -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "IGNO AI Agentic Solutions",
-    "url": "https://igno.co.in",
-    "description": "AI agentic systems and workflow automation for businesses.",
-    "email": "businessigno@gmail.com",
-    "serviceType": "AI Automation & Agentic AI",
-    "areaServed": "Worldwide"
-  }
-  </script>
+<!-- ================= SCHEMA ================= -->
+<script type="application/ld+json">
+{
+@context: "https://schema.org",
+@type: "ProfessionalService",
+name: "IGNO AI Agentic Solutions",
+url: "https://igno.co.in",
+description: "AI agentic systems and workflow automation for businesses.",
+email: "businessigno@gmail.com",
+serviceType: "AI Automation & Agentic AI",
+areaServed: "Worldwide"
+}
+</script>
 
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<!-- ================= GSAP ================= -->
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0f1a;
-      color: #ffffff;
-    }
-    /* (styles unchanged) */
-  </style>
+<!-- ================= STYLES ================= -->
+<style>
+body {
+margin: 0;
+font-family: Arial, Helvetica, sans-serif;
+background: #0b0f1a;
+color: #ffffff;
+}
+
+header {
+position: relative;
+height: 100vh;
+overflow: hidden;
+}
+
+canvas {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+}
+
+.overlay {
+position: absolute;
+inset: 0;
+background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55));
+z-index: 1;
+}
+
+.hero-content {
+position: relative;
+z-index: 2;
+text-align: center;
+top: 50%;
+transform: translateY(-50%);
+padding: 20px;
+}
+
+.logo-img {
+width: 140px;
+margin-bottom: 18px;
+filter: drop-shadow(0 10px 30px rgba(96,140,255,0.6));
+animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+0%,100% { transform: translateY(0); }
+50% { transform: translateY(-14px); }
+}
+
+h1 {
+font-size: 2.2rem;
+margin-bottom: 16px;
+}
+
+.tagline {
+font-size: 20px;
+max-width: 760px;
+margin: 0 auto 30px;
+color: #dbeafe;
+}
+
+.cta {
+padding: 14px 34px;
+font-size: 16px;
+border-radius: 6px;
+background: linear-gradient(135deg, #4f7cff, #7aa2ff);
+color: #000;
+text-decoration: none;
+font-weight: 600;
+display: inline-block;
+}
+
+section {
+max-width: 900px;
+margin: auto;
+padding: 80px 20px;
+text-align: center;
+}
+
+h2 { color: #7aa2ff; }
+p { color: #cbd5e1; line-height: 1.7; }
+
+.cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 22px;
+margin-top: 40px;
+}
+
+.card {
+background: rgba(255,255,255,0.05);
+border: 1px solid rgba(255,255,255,0.1);
+border-radius: 12px;
+padding: 32px 22px;
+}
+
+footer {
+border-top: 1px solid rgba(255,255,255,0.1);
+padding: 50px 20px;
+text-align: center;
+font-size: 14px;
+color: #94a3b8;
+}
+
+footer a {
+color: #7aa2ff;
+text-decoration: none;
+}
+</style>
 </head>
 
 <body>
 
-<!-- ================= TOP PAGE LINKS (ADDED – NOTHING ELSE TOUCHED) ================= -->
-<div style="padding: 12px 20px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.1);">
-  <a href="/about.html">About Us</a>
-  <a href="/faq.html">FAQ</a>
-</div>
-
 <header>
-  <canvas id="dotCanvas"></canvas>
-  <div class="overlay"></div>
+<canvas id="dotCanvas"></canvas>
+<div class="overlay"></div>
 
-  <div class="hero-content">
-    <img src="logo.png.png" alt="IGNO AI Automation Logo" class="logo-img" />
-    <h1>AI Agentic Solutions for Business Automation</h1>
-    <p class="tagline">Autonomous AI agents that automate workflows, decisions, and operations — built to scale.</p>
-    <a class="cta" href="mailto:businessigno@gmail.com">Talk to Us</a>
-  </div>
+<div class="hero-content">
+<img src="logo.png.png" alt="IGNO AI Automation Logo" class="logo-img" />
+<h1>AI Agentic Solutions for Business Automation</h1>
+<p class="tagline">Autonomous AI agents that automate workflows, decisions, and operations — built to scale.</p>
+<a class="cta" href="mailto:businessigno@gmail.com">Talk to Us</a>
+</div>
 </header>
 
-<!-- (ALL YOUR CONTENT BELOW IS 100% UNCHANGED) -->
-
-<!-- ================= RAG CHAT UI ================= -->
-<div class="rag-chat-wrapper">
-  <div class="rag-chat">
-    <div class="rag-chat-title">Ask our Custom Agent</div>
-    <div id="response" class="rag-output">
-      Ask anything about IGNO, AI agents, or automation.
-    </div>
-    <input id="userInput" class="rag-input" placeholder="Your Query"
-      onkeydown="if(event.key === 'Enter') sendMessage();" />
-    <div class="rag-hint">Hit Enter to Query • Powered by Team IGNO</div>
-  </div>
-</div>
-
 <section>
-  <h2>What We Do</h2>
-  <p>
-    IGNO designs and deploys <strong>agentic AI systems</strong> that automate business workflows,
-    integrate enterprise systems, and enable intelligent decision-making.
-  </p>
+<h2>What We Do</h2>
+<p>
+IGNO designs and deploys <strong>agentic AI systems</strong> that automate business workflows,
+integrate enterprise systems, and enable intelligent decision-making across sales, support,
+finance, and operations.
+</p>
 </section>
 
 <section>
-  <h2>Core Capabilities</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>AI Agents</h3>
-      <p>Autonomous agents that reason, act, and continuously improve.</p>
-    </div>
-    <div class="card">
-      <h3>Workflow Automation</h3>
-      <p>Replace manual processes with intelligent automation.</p>
-    </div>
-    <div class="card">
-      <h3>Enterprise Integration</h3>
-      <p>Seamless integration across CRMs, ERPs, APIs.</p>
-    </div>
-  </div>
+<h2>Core Capabilities</h2>
+<div class="cards">
+<div class="card">
+<h3>AI Agents</h3>
+<p>Autonomous agents that reason, act, and continuously improve.</p>
+</div>
+<div class="card">
+<h3>Workflow Automation</h3>
+<p>Replace manual processes with intelligent, scalable automation.</p>
+</div>
+<div class="card">
+<h3>Enterprise Integration</h3>
+<p>Seamless integration across CRMs, ERPs, APIs, and internal systems.</p>
+</div>
+</div>
+
+<div style="margin-top:50px;">
+<a class="cta" href="mailto:businessigno@gmail.com">Contact Us</a>
+</div>
 </section>
 
 <footer>
-  <p><strong>IGNO</strong> — AI Agentic Systems & Automation</p>
-  <p>📩 <a href="mailto:businessigno@gmail.com">businessigno@gmail.com</a></p>
-  <p>© 2026 IGNO. All rights reserved.</p>
+<p><strong>IGNO</strong> — AI Agentic Systems & Automation</p>
+<p>📩 <a href="mailto:businessigno@gmail.com">businessigno@gmail.com</a></p>
+<p>Built with ❤️ for modern businesses</p>
+<p>© 2026 IGNO. All rights reserved.</p>
 </footer>
 
-<!-- ================= ORIGINAL LINKS (LEFT EXACTLY AS-IS) ================= -->
+<!-- ================= INTERACTIVE DOT GRID ================= -->
+<script>
+const canvas = document.getElementById("dotCanvas");
+const ctx = canvas.getContext("2d");
+
+let dots = [];
+let mouse = { x: -9999, y: -9999 };
+
+const DOT_RADIUS = 1.4;
+const GAP = 18;
+const INTERACTION_RADIUS = 140;
+const REPULSION_FORCE = 0.35;
+const RETURN_FORCE = 0.05;
+const FRICTION = 0.88;
+
+function resize() {
+const dpr = window.devicePixelRatio || 1;
+canvas.width = window.innerWidth * dpr;
+canvas.height = window.innerHeight * dpr;
+ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+dots = [];
+for (let y = 0; y < window.innerHeight; y += GAP) {
+for (let x = 0; x < window.innerWidth; x += GAP) {
+dots.push({
+bx: x,
+by: y,
+x: x,
+y: y,
+vx: 0,
+vy: 0
+});
+}
+}
+}
+resize();
+window.addEventListener("resize", resize);
+
+function animate() {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+dots.forEach(d => {
+// Distance to pointer
+const dx = d.x - mouse.x;
+const dy = d.y - mouse.y;
+const dist = Math.hypot(dx, dy);
+
+// Repulsion on hover/touch
+if (dist < INTERACTION_RADIUS) {
+const force = (1 - dist / INTERACTION_RADIUS) * REPULSION_FORCE;
+d.vx += (dx / dist) * force;
+d.vy += (dy / dist) * force;
+}
+
+// Spring back to base position
+d.vx += (d.bx - d.x) * RETURN_FORCE;
+d.vy += (d.by - d.y) * RETURN_FORCE;
+
+// Apply velocity
+d.vx *= FRICTION;
+d.vy *= FRICTION;
+d.x += d.vx;
+d.y += d.vy;
+
+// Draw dot
+ctx.beginPath();
+ctx.arc(d.x, d.y, DOT_RADIUS, 0, Math.PI * 2);
+ctx.fillStyle = "rgba(120,160,255,0.9)";
+ctx.shadowBlur = 10;
+ctx.shadowColor = "rgba(120,160,255,0.8)";
+ctx.fill();
+ctx.shadowBlur = 0;
+});
+
+requestAnimationFrame(animate);
+}
+animate();
+
+// Mouse & touch support
+window.addEventListener("mousemove", e => {
+mouse.x = e.clientX;
+mouse.y = e.clientY;
+});
+
+window.addEventListener("mouseleave", () => {
+mouse.x = -9999;
+mouse.y = -9999;
+});
+
+window.addEventListener("touchstart", e => {
+if (e.touches[0]) {
+mouse.x = e.touches[0].clientX;
+mouse.y = e.touches[0].clientY;
+}
+}, { passive: true });
+
+window.addEventListener("touchmove", e => {
+if (e.touches[0]) {
+mouse.x = e.touches[0].clientX;
+mouse.y = e.touches[0].clientY;
+}
+}, { passive: true });
+
+window.addEventListener("touchend", () => {
+mouse.x = -9999;
+mouse.y = -9999;
+});
+</script>
+
+<div style="max-width:600px;margin:40px auto;">
+<input
+id="userInput"
+placeholder="Ask me anything..."
+style="width:100%;padding:10px;font-size:16px;"
+/>
+
+<button
+onclick="sendMessage()"
+style="margin-top:10px;padding:10px 20px;font-size:16px;"
+>
+Send
+</button>
+
+<div
+id="response"
+style="margin-top:20px;white-space:pre-wrap;"
+></div>
+</div>
+
+<script>
+async function sendMessage() {
+const input = document.getElementById("userInput");
+const responseDiv = document.getElementById("response");
+
+const message = input.value.trim();
+if (!message) return;
+
+responseDiv.innerText = "Thinking...";
+
+try {
+const res = await fetch(
+https://n8n.srv1212396.hstgr.cloud/webhook/rag-chat,
+{
+method: "POST",
+headers: {
+Content-Type: "application/json"
+},
+body: JSON.stringify({
+message: message
+})
+}
+);
+
+const data = await res.json();
+responseDiv.innerText = data.reply || "No response received.";
+} catch (err) {
+responseDiv.innerText = "Error connecting to AI.";
+console.error(err);
+}
+
+input.value = "";
+}
+</script>
 
 </body>
 </html>
