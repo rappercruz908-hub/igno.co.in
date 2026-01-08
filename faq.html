@@ -1,136 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>FAQ | IGNO AI Agentic Solutions</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - IGNO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
+        }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0f1a;
-      color: #e5e7eb;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .nav {
-      display: flex;
-      justify-content: flex-end;
-      gap: 22px;
-      padding: 14px 24px;
-      border-bottom: 1px solid rgba(122,162,255,0.25);
-      background: rgba(11,15,26,0.85);
-      backdrop-filter: blur(10px);
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    .nav a {
-      color: #7aa2ff;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-    }
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+        }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 80px 20px;
-    }
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
 
-    h1 {
-      color: #7aa2ff;
-      font-size: 2.3rem;
-      margin-bottom: 30px;
-    }
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-    details {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(122,162,255,0.25);
-      border-radius: 10px;
-      padding: 18px 22px;
-      margin-bottom: 16px;
-    }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
 
-    summary {
-      cursor: pointer;
-      font-weight: 600;
-      color: #dbeafe;
-      font-size: 16px;
-    }
+        nav.scrolled {
+            padding: 0.8rem 6%;
+            background: rgba(10, 10, 15, 0.95);
+        }
 
-    details p {
-      margin-top: 14px;
-      line-height: 1.7;
-      color: #cbd5e1;
-    }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding: 40px 20px;
-      text-align: center;
-      font-size: 14px;
-      color: #94a3b8;
-    }
-  </style>
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .cta-nav {
+            padding: 0.6rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 8px;
+            color: white !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .page-header {
+            padding: 10rem 6% 5rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-header h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .page-header .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 6% 6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-item {
+            background: linear-gradient(135deg, rgba(26, 26, 36, 0.5) 0%, rgba(17, 17, 24, 0.5) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+        }
+
+        .faq-question {
+            padding: 1.8rem 2.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .faq-question h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            padding-right: 1.5rem;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            color: var(--primary);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 2.5rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 800px;
+            padding: 0 2.5rem 1.8rem;
+        }
+
+        .faq-answer p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 8rem 6%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-box {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 4rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .cta-box h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-box p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button {
+            padding: 1rem 2.5rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 10px;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        footer {
+            background: var(--bg-secondary);
+            padding: 4rem 6%;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 5%;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .page-header {
+                padding: 8rem 5% 4rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+            }
+
+            .page-header p {
+                font-size: 1.1rem;
+            }
+
+            .faq-container {
+                padding: 2rem 5% 4rem;
+            }
+
+            .faq-question {
+                padding: 1.4rem 1.8rem;
+            }
+
+            .faq-question h3 {
+                font-size: 1.05rem;
+            }
+
+            .faq-answer {
+                padding: 0 1.8rem;
+            }
+
+            .faq-item.active .faq-answer {
+                padding: 0 1.8rem 1.4rem;
+            }
+
+            .cta-box {
+                padding: 3rem 2rem;
+            }
+
+            .cta-box h2 {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="gradient-bg"></div>
+    <div class="grid-overlay"></div>
 
-<div class="nav">
-  <a href="/">Home</a>
-  <a href="/about.html">About Us</a>
-</div>
+    <nav id="navbar">
+        <div class="logo">IGNO</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="mailto:businessigno@gmail.com" class="cta-nav">Contact Us</a></li>
+        </ul>
+    </nav>
 
-<div class="container">
-  <h1>Frequently Asked Questions</h1>
+    <div class="page-header">
+        <h1>Frequently Asked <span class="gradient-text">Questions</span></h1>
+        <p>Everything you need to know about IGNO and our AI solutions</p>
+    </div>
 
-  <!-- 20 QUESTIONS -->
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What are agentic AI systems?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Agentic AI systems are intelligent software agents that can perceive their environment, make decisions, and take actions to achieve specific goals autonomously. Unlike traditional automation that follows predefined rules, agentic systems can reason through complex scenarios, adapt to changing conditions, and learn from experience. They work more like a smart assistant that understands context and can figure out how to accomplish tasks even when faced with unexpected situations.</p>
+            </div>
+        </div>
 
-  <details><summary>What does IGNO do?</summary><p>IGNO is an AI solutions consultancy focused on agentic AI systems, workflow automation, and intelligent process optimization.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>How is IGNO different from other automation tools?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>While many automation tools require you to manually map out every step of a process, IGNO's agentic AI can understand high-level goals and figure out how to achieve them. We focus on building systems that can handle exceptions, adapt to changes, and make intelligent decisions—not just follow scripts. Our solutions integrate deeply with your existing systems and learn from how your business actually operates, rather than forcing you to change your workflows to fit a rigid automation framework.</p>
+            </div>
+        </div>
 
-  <details><summary>What are agentic AI systems?</summary><p>Agentic AI systems are autonomous agents capable of reasoning, taking actions, interacting with systems, and achieving defined business goals.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What types of businesses can benefit from IGNO?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>We work with growing businesses and mid-market companies across various industries—from e-commerce and SaaS to professional services and logistics. If you're dealing with repetitive workflows, managing high volumes of data, or spending too much time on tasks that could be automated, IGNO can help. We're particularly effective for companies that have outgrown basic automation tools but aren't yet ready for enterprise-level complexity and cost.</p>
+            </div>
+        </div>
 
-  <details><summary>Which industries do you work with?</summary><p>We work across SaaS, enterprise services, finance, supply chain, operations, and technology-driven businesses.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>How long does implementation take?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>It depends on the scope and complexity of your project. A focused automation project might take 2-4 weeks from kickoff to deployment, while more comprehensive implementations typically take 6-12 weeks. We follow an iterative approach, so you'll see results early and often rather than waiting months for a big reveal. We prioritize getting value into your hands quickly and then expanding based on what works best.</p>
+            </div>
+        </div>
 
-  <details><summary>Do you build custom AI solutions?</summary><p>Yes. Every solution is designed specifically for the client’s processes, data, and system landscape.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>How do you handle data security?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Security is fundamental to everything we build. We use industry-standard encryption for data in transit and at rest, implement strict access controls, and follow security best practices throughout development. We can work within your existing security framework and are happy to sign NDAs and data processing agreements. For businesses with specific compliance requirements, we can deploy solutions in your own infrastructure or private cloud environment.</p>
+            </div>
+        </div>
 
-  <details><summary>How is IGNO different from automation vendors?</summary><p>We focus on strategic consulting, governance, and long-term scalability—not just tool implementation.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What kind of ROI should we expect?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>ROI varies based on your specific use case, but our clients typically see significant time savings (40-60% reduction in manual work) and cost reductions within the first few months. The benefits compound over time as the system learns and optimizes. We work with you upfront to identify clear success metrics and track progress toward those goals. Most clients find that the automation pays for itself within 6-12 months through a combination of time savings, error reduction, and improved efficiency.</p>
+            </div>
+        </div>
 
-  <details><summary>Do you use open-source or proprietary tools?</summary><p>We use a combination of open-source and enterprise-grade tools based on security, scalability, and client needs.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Do we need technical expertise to use your solutions?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Not at all. We design our interfaces to be intuitive and accessible to non-technical users. You'll be able to monitor, adjust, and manage the AI agents without writing code. That said, if you have technical team members who want to dive deeper or customize things, we provide the tools and documentation for that too. We also offer training and ongoing support to ensure your team feels confident using the system.</p>
+            </div>
+        </div>
 
-  <details><summary>Can you integrate with existing systems?</summary><p>Yes. We integrate with CRMs, ERPs, databases, APIs, and internal platforms.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>How do I get started?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>The first step is simple: reach out via email and we'll schedule an introductory call. During that conversation, we'll learn about your business, understand your challenges, and explore whether IGNO is a good fit. If it makes sense to move forward, we'll conduct a deeper assessment and propose a solution tailored to your needs. Many clients start with a focused pilot project to prove value before expanding to broader use cases.</p>
+            </div>
+        </div>
 
-  <details><summary>Is AI automation secure?</summary><p>Security is core to our design. We implement access controls, auditability, and data isolation.</p></details>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What ongoing support do you provide?</h3>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>We provide ongoing support to ensure your AI agents continue to deliver value. This includes monitoring system performance, troubleshooting any issues that arise, and making adjustments as your business evolves. We also offer regular check-ins to discuss optimization opportunities and potential new use cases. Think of us as a long-term partner in your automation journey, not just a vendor.</p>
+            </div>
+        </div>
+    </div>
 
-  <details><summary>Do AI agents replace human teams?</summary><p>No. Our systems augment human teams by eliminating repetitive and error-prone tasks.</p></details>
-
-  <details><summary>How long does implementation take?</summary><p>Depending on complexity, implementations range from a few weeks to multi-phase rollouts.</p></details>
-
-  <details><summary>Can you help identify automation opportunities?</summary><p>Yes. We conduct assessments to identify high-impact, low-risk automation opportunities.</p></details>
-
-  <details><summary>Do you provide ongoing support?</summary><p>Yes. We offer monitoring, optimization, and continuous improvement support.</p></details>
-
-  <details><summary>Is your solution scalable?</summary><p>All solutions are designed to scale across teams, regions, and transaction volumes.</p></details>
-
-  <details><summary>Do you support compliance requirements?</summary><p>Yes. We design systems aligned with enterprise compliance and governance standards.</p></details>
-
-  <details><summary>Can small businesses work with IGNO?</summary><p>Yes. We tailor solutions based on business size and growth stage.</p></details>
-
-  <details><summary>What tools do you specialize in?</summary><p>We specialize in agent orchestration, automation platforms, APIs, and AI model integration.</p></details>
-
-  <details><summary>How do you price your services?</summary><p>Pricing depends on scope, complexity, and engagement model.</p></details>
-
-  <details><summary>Do you provide documentation?</summary><p>Yes. All solutions include documentation and knowledge transfer.</p></details>
-
-  <details><summary>Can you work with in-house teams?</summary><p>Absolutely. We collaborate closely with internal teams.</p></details>
-
-  <details><summary>How do we get started?</summary><p>You can reach out via email to schedule an initial consultation.</p></details>
-
-</div>
-
-<footer>
-  <p><strong>IGNO</strong> — AI Agentic Systems & Automation</p>
-  <p>© 2026 IGNO. All rights reserved.</p>
-</footer>
-
-</body>
-</html>
+    <section class="cta-section">
+        <div class="cta-box">
+            <h2>Still have questions?</h2>
+            <p>We're here to help. Let's discuss how IGNO can work for your business.</p>
+   
